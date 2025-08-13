@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
-  User, Briefcase, GraduationCap, Globe, Zap, Brain, Landmark, FileText, HardHat, Users,
-  BarChart, Gem, Lightbulb, Info, Settings, Bot, Handshake, BookOpen, Flag, LayoutDashboard,
-  CheckCircle, HeartHandshake, Phone, Mail, Linkedin, ArrowRight
+  User, Briefcase, GraduationCap, Globe, Zap, Brain, Landmark, FileText,
+  HardHat, Users, BarChart, Gem, Lightbulb, Info, Settings, Bot, Handshake,
+  BookOpen, Flag, LayoutDashboard, CheckCircle, HeartHandshake, Phone, Mail,
+  Linkedin, ArrowRight
 } from 'lucide-react';
 
 // ===================== DATOS =====================
@@ -270,7 +271,7 @@ const TypingEffect = ({ text }: { text: string }) => {
   );
 };
 
-// ===================== UI =====================
+// ===================== NAVEGACIÓN =====================
 const Navigation = ({ activeSection, onNavigate, isMobileMenuOpen, toggleMobileMenu }) => {
   const sections = [
     { id: 'perfil', title: 'Perfil Profesional', icon: <User size={20} /> },
@@ -289,10 +290,11 @@ const Navigation = ({ activeSection, onNavigate, isMobileMenuOpen, toggleMobileM
           <div className="flex-shrink-0 flex items-center lg:flex-col lg:text-center">
             <User size={32} className="text-amber-600 mr-3 lg:mb-4" />
             <div className="flex flex-col items-center">
+              {/* En desktop, el efecto de tipeo se muestra aquí */}
               <div className="hidden lg:block">
                 <TypingEffect text="CURRICULUM VITAE" />
               </div>
-              {/* Nombre: pequeño en móvil; intacto en escritorio */}
+              {/* SOLO MÓVIL: nombre más pequeño; escritorio intacto */}
               <h1 className="static-name font-bold font-sans text-gray-50 text-xs sm:text-xl lg:text-2xl leading-tight text-center">
                 <span className="block">ARELI</span>
                 <span className="block">AGUILAR</span>
@@ -338,8 +340,8 @@ const Navigation = ({ activeSection, onNavigate, isMobileMenuOpen, toggleMobileM
     </nav>
   );
 };
-
-const Section = React.forwardRef(({ id, title, children }, ref: any) => {
+// ===================== SECCIÓN GENÉRICA =====================
+const Section = React.forwardRef(({ id, title, children }: any, ref: any) => {
   const isExpandableSection = id === 'experiencia' || id === 'proyectos';
   return (
     <section
@@ -352,7 +354,7 @@ const Section = React.forwardRef(({ id, title, children }, ref: any) => {
         {isExpandableSection && (
           <div className="flex items-center text-gray-500 ml-2">
             <Info size={16} className="mr-1" />
-            <p className="text-sm font-medium">Presiona cada bloque para desplegar información</p>
+            <p className="text-sm font-medium">Presiona para desplegar información</p>
           </div>
         )}
       </div>
@@ -361,6 +363,7 @@ const Section = React.forwardRef(({ id, title, children }, ref: any) => {
   );
 });
 
+// ===================== EXPERIENCIA COLAPSABLE =====================
 const CollapsibleExperience = ({ date, title, company, location, description, icon }) => {
   const [isOpen, setIsOpen] = useState(false);
   const contentRef = useRef<HTMLDivElement | null>(null);
@@ -414,6 +417,7 @@ const CollapsibleExperience = ({ date, title, company, location, description, ic
   );
 };
 
+// ===================== TARJETAS =====================
 const ProfileCard = ({ icon, text }) => (
   <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 mb-4 border border-gray-200">
     <div className="flex items-start">
@@ -483,17 +487,30 @@ const SkillsCard = ({ title, icon, iconColor, children }) => (
   </div>
 );
 
+// ===================== CONTACT CARD (CORREGIDO) =====================
 const ContactCard = ({ icon, label, value, href }) => {
   const isLink = !!href;
-  const content = (
+  const newTab = href && href.startsWith('http');
+
+  return (
     <div className={`bg-white rounded-xl shadow-md p-4 sm:p-6 mb-4 border border-gray-200 transition-all duration-300 ${isLink ? 'bg-gray-100 shadow-lg' : ''}`}>
       <div className="flex items-start justify-between">
         <div className="flex items-start">
           <div className="mr-4 text-amber-600 mt-1 flex-shrink-0">{icon}</div>
           <div>
             <p className="text-sm font-semibold text-gray-500">{label}</p>
-            <p className="text-lg font-bold text-[#4a688b] break-words">{value}</p>
-            {isLink && <p className="text-sm text-gray-500 mt-1 break-all">{href}</p>}
+            {isLink ? (
+              <a
+                href={href}
+                target={newTab ? '_blank' : undefined}
+                rel={newTab ? 'noopener noreferrer' : undefined}
+                className="text-lg font-bold text-[#1d4ed8] break-words hover:underline"
+              >
+                {value}
+              </a>
+            ) : (
+              <p className="text-lg font-bold text-[#4a688b] break-words">{value}</p>
+            )}
           </div>
         </div>
         {isLink && (
@@ -504,15 +521,7 @@ const ContactCard = ({ icon, label, value, href }) => {
       </div>
     </div>
   );
-  return isLink ? (
-    <a href={href} className="block" target="_blank" rel="noopener noreferrer">
-      {content}
-    </a>
-  ) : (
-    <div className="block cursor-default">{content}</div>
-  );
 };
-
 // ===================== APP =====================
 const App = () => {
   const [activeSection, setActiveSection] = useState('perfil');
@@ -581,12 +590,14 @@ const App = () => {
       </div>
 
       <main className="lg:ml-80 p-6 lg:p-8">
+        {/* Perfil */}
         <Section ref={(el) => (sectionRefs.current.perfil = el)} id="perfil" title="Perfil Profesional">
           {portfolioData.profile.map((item, index) => (
             <ProfileCard key={index} icon={item.icon} text={item.text} />
           ))}
         </Section>
 
+        {/* Habilidades */}
         <Section ref={(el) => (sectionRefs.current.habilidades = el)} id="habilidades" title="Habilidades Destacadas">
           <div className="space-y-6">
             <SkillsCard title="Experiencia Ejecutiva" icon={<Briefcase size={24} />} iconColor="#d97706">
@@ -621,7 +632,7 @@ const App = () => {
               </div>
             </SkillsCard>
 
-            {/* === Enfoque de Colaboración (OPCIÓN 3 profesional) === */}
+            {/* === Título actualizado === */}
             <SkillsCard title="Enfoque de Colaboración" icon={<HeartHandshake size={24} />} iconColor="#d97706">
               <p className="text-gray-700">
                 Habilidades interpersonales destacadas para generar confianza, facilitar la cooperación y fomentar un ambiente de alto rendimiento.
@@ -630,6 +641,7 @@ const App = () => {
           </div>
         </Section>
 
+        {/* Experiencia */}
         <Section ref={(el) => (sectionRefs.current.experiencia = el)} id="experiencia" title="Experiencia Profesional">
           {portfolioData.experience.map((exp, index) => (
             <CollapsibleExperience
@@ -644,6 +656,7 @@ const App = () => {
           ))}
         </Section>
 
+        {/* Proyectos */}
         <Section ref={(el) => (sectionRefs.current.proyectos = el)} id="proyectos" title="Proyectos de Innovación y Transformación Digital">
           {portfolioData.projects.map((project, index) => (
             <CollapsibleExperience
@@ -656,6 +669,7 @@ const App = () => {
           ))}
         </Section>
 
+        {/* Educación */}
         <Section ref={(el) => (sectionRefs.current.educacion = el)} id="educacion" title="Educación Académica">
           {portfolioData.education.map((edu, index) => (
             <EducationCard
@@ -670,6 +684,7 @@ const App = () => {
           <OtherStudies items={portfolioData.otherStudies} />
         </Section>
 
+        {/* Idiomas */}
         <Section ref={(el) => (sectionRefs.current.idiomas = el)} id="idiomas" title="Idiomas">
           <div className="flex flex-col md:flex-row gap-4">
             {portfolioData.languages.map((lang, index) => (
@@ -678,40 +693,26 @@ const App = () => {
           </div>
         </Section>
 
+        {/* Contacto (usa ContactCard corregido) */}
         <Section ref={(el) => (sectionRefs.current.contacto = el)} id="contacto" title="Contacto">
           <div className="grid md:grid-cols-2 gap-4">
-           <ContactCard
-  icon={<Mail size={24} />}
-  label="Correo Electrónico"
-  value={
-    <a
-      href={`mailto:${portfolioData.contact.email}`}
-      className="text-[#1d4ed8] font-bold text-lg break-words"
-    >
-      {portfolioData.contact.email}
-    </a>
-  }
-/>
-
-<ContactCard
-  icon={<Linkedin size={24} />}
-  label="LinkedIn"
-  value="Perfil de LinkedIn"
-  href={portfolioData.contact.linkedin}
-/>
-
-<ContactCard
-  icon={<Phone size={24} />}
-  label="Teléfono"
-  value={
-    <a
-      href={`tel:${portfolioData.contact.phone.replace(/\s+/g, '')}`}
-      className="text-[#1d4ed8] font-bold text-lg break-words"
-    >
-      {portfolioData.contact.phone}
-    </a>
-  }
-/>
+            <ContactCard
+              icon={<Mail size={24} />}
+              label="Correo Electrónico"
+              value={portfolioData.contact.email}
+              href={`mailto:${portfolioData.contact.email}`}
+            />
+            <ContactCard
+              icon={<Linkedin size={24} />}
+              label="LinkedIn"
+              value="Perfil de LinkedIn"
+              href={portfolioData.contact.linkedin}
+            />
+            <ContactCard
+              icon={<Phone size={24} />}
+              label="Teléfono"
+              value={portfolioData.contact.phone}
+              href={`tel:${portfolioData.contact.phone.replace(/\s+/g, '')}`}
             />
           </div>
         </Section>
