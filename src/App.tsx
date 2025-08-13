@@ -1,5 +1,4 @@
 import React, {useState, useEffect, useRef } from 'react';
-
 import { User, Briefcase, GraduationCap, Globe, Zap, Brain, Landmark, FileText, HardHat, Users,
  BarChart, Gem, Lightbulb, Info, Settings, Bot, Handshake, BookOpen, Flag, LayoutDashboard,
  CheckCircle, HeartHandshake, Phone, Mail, Linkedin, Download, Home, ArrowRight } from
@@ -27,7 +26,6 @@ const portfolioData = {
  },
  ],
  skills: {
-  // Se han integrado "Gestión empresarial" y "Análisis Estratégico" en la lista de tooltips
  tooltips: {
  'MS Office': 'Word, Excel, Outlook, Power Point - Nivel Avanzado',
  'Motores de búsqueda': 'Búsqueda avanzada y análisis de información',
@@ -194,537 +192,468 @@ const portfolioData = {
  {language: 'Inglés', proficiency: 'Fluido' },
  ],
  contact: {
- email: 'areliaguilarln@gmail.com', // Se ha corregido el correo electrónico aquí.
+ email: 'areliaguilarln@gmail.com',
  phone: '55 4341 3490',
  linkedin: 'https://www.linkedin.com/in/areli-aguilar/',
  cvUrl: '#',
  },
 };
-
-// COMPONENTE PARA EL CARRUSEL
-const MarqueeCarousel = () => {
- const [isHovering, setIsHovering] = useState(false);
- 
- const phrases = [
- {text: 'Estrategia Empresarial', icon: <Landmark size={24}/>},
- {text: 'Orientación a Resultados', icon: <BarChart size={24}/>},
- {text: 'Pensamiento Crítico y Sistémico', icon: <Brain size={24}/>},
- { text: 'IA y Tecnología en Evolución', icon: <Zap size={24}/>},
- {text: 'Gestión de Proyectos', icon: <LayoutDashboard size={24}/>},
- { text: 'Análisis para la Toma de Decisiones', icon: <Gem size={24}/>}
- ];
- 
- // Duplicamos las frases para crear un efecto de loop infinito
- const fullContent = [...phrases, ...phrases];
- 
- return (
- <div
- className="bg-transparent overflow-hidden h-12 w-full mt-4 marquee-container-wrapper flex items-center"
- onMouseEnter={() => setIsHovering(true)}
- onMouseLeave={() => setIsHovering(false)}
- >
- <div className={`marquee-container ${isHovering? 'paused' : ""}`}>
- {fullContent.map((item, index) => (
- <div key={index} className="marquee-item">
- <span className="icon">{item.icon}</span>
- <span>{item.text}</span>
- </div>
- ))}
- </div>
- </div>
- );
-};
-
-// Nuevo componente para el efecto de tipeo
-const TypingEffect = ({ text }) => {
- const [displayedText, setDisplayedText] = useState('');
- const [isDeleting, setIsDeleting] = useState(false);
- const [index, setIndex] = useState(0);
- const [speed, setSpeed] = useState(100);
- useEffect(() => {
- const handleTyping = () => {
- if (!isDeleting) {
- if (displayedText.length < text.length) {
- setDisplayedText(text.substring(0, displayedText.length + 1));
- setSpeed(100);
- } else {
- setSpeed(2000);
- setIsDeleting(true);
- }
- } else {
- if (displayedText.length > 0) {
- setDisplayedText(text.substring(0, displayedText.length - 1));
- setSpeed(50);
- } else {
- setSpeed(500);
- setIsDeleting(false);
- setIndex(0);
- }
- }
- };
- const timer = setTimeout(handleTyping, speed);
- return () => clearTimeout(timer);
- }, [displayedText, isDeleting, speed, text]);
- return (
- <h2 className="text-xl font-bold font-sans tracking-wider mb-2 text-[#4a688b]">
- {displayedText}
- <span className="typing-cursor">|</span>
- </h2>
- );
-};
 // COMPONENTES
 const Navigation = ({ activeSection, onNavigate, isMobileMenuOpen, toggleMobileMenu }) => {
- const sections = [
- { id: 'perfil', title: 'Perfil Profesional', icon: <User size={20} /> },
- { id: 'habilidades', title: 'Habilidades Destacadas', icon: <Gem size={20} /> },
- { id: 'experiencia', title: 'Experiencia Profesional', icon: <Briefcase size={20} /> },
- { id: 'proyectos', title: 'Proyectos de Innovación y Transformación Digital', icon: <Lightbulb size={20} /> },
- { id: 'educacion', title: 'Educación Académica', icon: <GraduationCap size={20} /> },
- { id: 'idiomas', title: 'Idiomas', icon: <Globe size={20} /> },
- { id: 'contacto', title: 'Contacto', icon: <Handshake size={20} /> },
- ];
- return (
- <nav className="fixed lg:left-0 top-0 w-full lg:w-80 h-16 lg:h-screen bg-[#1e2a38] text-gray-200 shadow-2xl z-50">
-  <div className="container mx-auto px-4 lg:px-0 h-full flex items-center justify-between lg:block">
-    <div className="lg:py-8 flex items-center lg:justify-center">
-      <div className="flex-shrink-0 flex items-center lg:flex-col lg:text-center">
-        <User size={32} className="text-amber-600 mr-3 lg:mb-4" />
-        <div className="flex flex-col items-center">
-          {/* En desktop, el efecto de tipeo se muestra aquí */}
-          <div className="hidden lg:block">
-            <TypingEffect text="CURRICULUM VITAE" />
+  const sections = [
+    { id: 'perfil', title: 'Perfil Profesional', icon: <User size={20} /> },
+    { id: 'habilidades', title: 'Habilidades Destacadas', icon: <Gem size={20} /> },
+    { id: 'experiencia', title: 'Experiencia Profesional', icon: <Briefcase size={20} /> },
+    { id: 'proyectos', title: 'Proyectos de Innovación y Transformación Digital', icon: <Lightbulb size={20} /> },
+    { id: 'educacion', title: 'Educación Académica', icon: <GraduationCap size={20} /> },
+    { id: 'idiomas', title: 'Idiomas', icon: <Globe size={20} /> },
+    { id: 'contacto', title: 'Contacto', icon: <Handshake size={20} /> },
+  ];
+  return (
+    <nav className="fixed lg:left-0 top-0 w-full lg:w-80 h-16 lg:h-screen bg-[#1e2a38] text-gray-200 shadow-2xl z-50">
+      <div className="container mx-auto px-4 lg:px-0 h-full flex items-center justify-between lg:block">
+        <div className="lg:py-8 flex items-center lg:justify-center">
+          <div className="flex-shrink-0 flex items-center lg:flex-col lg:text-center">
+            <User size={32} className="text-amber-600 mr-3 lg:mb-4" />
+            <div className="flex flex-col items-center">
+              {/* En desktop, el efecto de tipeo se muestra aquí */}
+              <div className="hidden lg:block">
+                <TypingEffect text="CURRICULUM VITAE" />
+              </div>
+              {/* SOLO MÓVIL: nombre más pequeño; escritorio intacto */}
+              <h1 className="static-name font-bold font-sans text-gray-50 text-xs sm:text-xl lg:text-2xl leading-tight text-center">
+                <span className="block">ARELI</span>
+                <span className="block">AGUILAR</span>
+                <span className="block">DELGADO</span>
+              </h1>
+            </div>
           </div>
-          {/* SOLO MÓVIL: nombre más pequeño; escritorio intacto */}
-          <h1 className="static-name font-bold font-sans text-gray-50 text-xs sm:text-xl lg:text-2xl leading-tight text-center">
-            <span className="block">ARELI</span>
-            <span className="block">AGUILAR</span>
-            <span className="block">DELGADO</span>
-          </h1>
+        </div>
+
+        <div className="hidden lg:block w-3/4 mx-auto my-4 border-t border-gray-700"></div>
+
+        <div className="lg:hidden">
+          <button onClick={toggleMobileMenu} className="text-gray-200 hover:text-gray-400 focus:outline-none">
+            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              {isMobileMenuOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
+        </div>
+
+        <div className={`fixed inset-x-0 top-16 bg-[#1e2a38] lg:static lg:block lg:h-auto lg:mt-8 ${isMobileMenuOpen ? 'block' : 'hidden'}`}>
+          <ul className="flex flex-col lg:space-y-2 p-4 lg:p-0">
+            {sections.map(section => (
+              <li key={section.id}>
+                <a
+                  href={`#${section.id}`}
+                  onClick={(e) => { e.preventDefault(); onNavigate(section.id); }}
+                  className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors duration-200 ${
+                    activeSection === section.id ? 'bg-[#4a688b] text-white shadow-lg' : 'hover:bg-gray-800'
+                  }`}
+                >
+                  {section.icon}
+                  <span className="font-semibold">{section.title}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
-    </div>
-    <div className="hidden lg:block w-3/4 mx-auto my-4 border-t border-gray-700"></div>
-    <div className="lg:hidden">
-      <button onClick={toggleMobileMenu} className="text-gray-200 hover:text-gray-400 focus:outline-none">
-        <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          {isMobileMenuOpen ? (
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          ) : (
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-          )}
-        </svg>
-      </button>
-    </div>
-    <div className={`fixed inset-x-0 top-16 bg-[#1e2a38] lg:static lg:block lg:h-auto lg:mt-8 ${isMobileMenuOpen ? 'block' : 'hidden'}`}>
-      <ul className="flex flex-col lg:space-y-2 p-4 lg:p-0">
-        {sections.map(section => (
-          <li key={section.id}>
-            <a
-              href={`#${section.id}`}
-              onClick={(e) => { e.preventDefault(); onNavigate(section.id); }}
-              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors duration-200 ${
-                activeSection === section.id ? 'bg-[#4a688b] text-white shadow-lg' : 'hover:bg-gray-800'
-              }`}
-            >
-              {section.icon}
-              <span className="font-semibold">{section.title}</span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </div>
- </nav>
- );
+    </nav>
+  );
 };
 
 // Componente para las secciones
 const Section = React.forwardRef(({ id, title, children }, ref) => {
- const isExpandableSection = id === 'experiencia' || id === 'proyectos';
- return (
- <section
-   id={id}
-   ref={ref}
-   className="bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-xl mb-12 transform hover:scale-[1.01] transition-transform duration-300"
- >
-   <div className="flex items-center gap-4 mb-6 border-b pb-4 border-amber-600">
-     <h2 className="text-2xl sm:text-3xl font-bold text-[#4a688b] font-sans">{title}</h2>
-     {isExpandableSection && (
-       <div className="flex items-center text-gray-500 ml-2">
-         <Info size={16} className="mr-1" />
-         <p className="text-sm font-medium">Presiona cada bloque para desplegar información</p>
-       </div>
-     )}
-   </div>
-   {children}
- </section>
- );
+  const isExpandableSection = id === 'experiencia' || id === 'proyectos';
+  return (
+    <section
+      id={id}
+      ref={ref}
+      className="bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-xl mb-12 transform hover:scale-[1.01] transition-transform duration-300"
+    >
+      <div className="flex items-center gap-4 mb-6 border-b pb-4 border-amber-600">
+        <h2 className="text-2xl sm:text-3xl font-bold text-[#4a688b] font-sans">{title}</h2>
+        {isExpandableSection && (
+          <div className="flex items-center text-gray-500 ml-2">
+            <Info size={16} className="mr-1" />
+            <p className="text-sm font-medium">Presiona para desplegar información</p>
+          </div>
+        )}
+      </div>
+      {children}
+    </section>
+  );
 });
 
 // Componente para mostrar la experiencia profesional y proyectos de forma colapsable.
 const CollapsibleExperience = ({ date, title, company, location, description, icon }) => {
- const [isOpen, setIsOpen] = useState(false);
- const toggleOpen = () => setIsOpen(!isOpen);
- const contentRef = useRef(null);
- useEffect(() => {
-   if (contentRef.current) {
-     contentRef.current.style.maxHeight = isOpen ? `${contentRef.current.scrollHeight}px` : '0px';
-   }
- }, [isOpen]);
- return (
- <div className="bg-white rounded-xl shadow-md overflow-hidden mb-4 border border-gray-200">
-   <button
-     onClick={toggleOpen}
-     className="w-full flex justify-between items-center p-4 sm:p-6 text-left transition-colors duration-200 hover:bg-gray-50 focus:outline-none"
-   >
-     <div className="flex items-start">
-       <div className="mr-4 text-amber-600 flex-shrink-0">{icon}</div>
-       <div>
-         <h3 className="text-lg font-bold text-[#4a688b]">{title}</h3>
-         <p className="text-sm font-medium text-gray-600">{date}</p>
-         {company && <p className="text-sm text-gray-500 italic">{company}</p>}
-         {location && <p className="text-sm text-gray-500">{location}</p>}
-       </div>
-     </div>
-     <svg
-       className={`w-6 h-6 transform transition-transform duration-300 text-[#4a688b] ${isOpen ? 'rotate-180' : ''}`}
-       fill="none"
-       stroke="currentColor"
-       viewBox="0 0 24 24"
-       xmlns="http://www.w3.org/2000/svg"
-     >
-       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-     </svg>
-   </button>
-   <div
-     ref={contentRef}
-     className="overflow-hidden transition-[max-height] duration-500 ease-in-out"
-     style={{ maxHeight: '0px' }}
-   >
-     <div className="px-6 pb-6 pt-2 border-t border-gray-200">
-       <ul className="list-none space-y-2">
-         {description.map((item, index) => (
-           <li key={index} className="flex items-start text-gray-700">
-             <span className="text-amber-600 mr-2 flex-shrink-0">&rarr;</span>
-             <span>{item}</span>
-           </li>
-         ))}
-       </ul>
-     </div>
-   </div>
- </div>
- );
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleOpen = () => setIsOpen(!isOpen);
+  const contentRef = useRef(null);
+
+  useEffect(() => {
+    if (contentRef.current) {
+      contentRef.current.style.maxHeight = isOpen ? `${contentRef.current.scrollHeight}px` : '0px';
+    }
+  }, [isOpen]);
+
+  return (
+    <div className="bg-white rounded-xl shadow-md overflow-hidden mb-4 border border-gray-200">
+      <button
+        onClick={toggleOpen}
+        className="w-full flex justify-between items-center p-4 sm:p-6 text-left transition-colors duration-200 hover:bg-gray-50 focus:outline-none"
+      >
+        <div className="flex items-start">
+          <div className="mr-4 text-amber-600 flex-shrink-0">{icon}</div>
+          <div>
+            <h3 className="text-lg font-bold text-[#4a688b]">{title}</h3>
+            <p className="text-sm font-medium text-gray-600">{date}</p>
+            {company && <p className="text-sm text-gray-500 italic">{company}</p>}
+            {location && <p className="text-sm text-gray-500">{location}</p>}
+          </div>
+        </div>
+        <svg
+          className={`w-6 h-6 transform transition-transform duration-300 text-[#4a688b] ${isOpen ? 'rotate-180' : ''}`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      <div
+        ref={contentRef}
+        className="overflow-hidden transition-[max-height] duration-500 ease-in-out"
+        style={{ maxHeight: '0px' }}
+      >
+        <div className="px-6 pb-6 pt-2 border-t border-gray-200">
+          <ul className="list-none space-y-2">
+            {description.map((item, index) => (
+              <li key={index} className="flex items-start text-gray-700">
+                <span className="text-amber-600 mr-2 flex-shrink-0">&rarr;</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 // Componente para las tarjetas del perfil profesional
-const ProfileCard = ({ icon, text }) => {
- return (
- <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 mb-4 border border-gray-200">
-   <div className="flex items-start">
-     <div className="mr-4 text-[#4a688b] mt-1 flex-shrink-0">{icon}</div>
-     <p className="text-gray-800 text-base sm:text-lg leading-relaxed">{text}</p>
-   </div>
- </div>
- );
-};
+const ProfileCard = ({ icon, text }) => (
+  <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 mb-4 border border-gray-200">
+    <div className="flex items-start">
+      <div className="mr-4 text-[#4a688b] mt-1 flex-shrink-0">{icon}</div>
+      <p className="text-gray-800 text-base sm:text-lg leading-relaxed">{text}</p>
+    </div>
+  </div>
+);
 
-// Nuevo componente para las tarjetas de educación
-const EducationCard = ({ icon, iconColor, title, period, description }) => {
- return (
- <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 mb-4 border border-gray-200">
-   <div className="flex items-start">
-     <div className="mr-4 flex-shrink-0" style={{ color: iconColor }}>{icon}</div>
-     <div>
-       <h3 className="text-lg font-bold text-[#4a688b]">{title}</h3>
-       <p className="text-sm font-medium text-gray-600 mb-2">{period}</p>
-       {Array.isArray(description) ? (
-         <ul className="list-none space-y-2">
-           {description.map((item, index) => (
-             <li key={index} className="flex items-start text-gray-700">
-               <span className="text-amber-600 mr-2 flex-shrink-0">&rarr;</span>
-               <span>{item}</span>
-             </li>
-           ))}
-         </ul>
-       ) : (
-         <p className="text-gray-700">{description}</p>
-       )}
-     </div>
-   </div>
- </div>
- );
-};
+// Tarjeta de educación
+const EducationCard = ({ icon, iconColor, title, period, description }) => (
+  <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 mb-4 border border-gray-200">
+    <div className="flex items-start">
+      <div className="mr-4 flex-shrink-0" style={{ color: iconColor }}>{icon}</div>
+      <div>
+        <h3 className="text-lg font-bold text-[#4a688b]">{title}</h3>
+        <p className="text-sm font-medium text-gray-600 mb-2">{period}</p>
+        {Array.isArray(description) ? (
+          <ul className="list-none space-y-2">
+            {description.map((item, index) => (
+              <li key={index} className="flex items-start text-gray-700">
+                <span className="text-amber-600 mr-2 flex-shrink-0">&rarr;</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-gray-700">{description}</p>
+        )}
+      </div>
+    </div>
+  </div>
+);
 
-// Nuevo componente para la lista de "Otros estudios" con íconos
-const OtherStudies = ({ items }) => {
- return (
- <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 mb-4 border border-gray-200">
-   <h3 className="text-lg font-bold text-[#4a688b] mb-2">Otros estudios:</h3>
-   <ul className="list-none space-y-2">
-     {items.map((item, index) => (
-       <li key={index} className="flex items-start text-gray-700">
-         <BookOpen className="mr-2 flex-shrink-0 text-amber-600" size={20} />
-         <span>{item}</span>
-       </li>
-     ))}
-   </ul>
- </div>
- );
-};
+// Lista de "Otros estudios"
+const OtherStudies = ({ items }) => (
+  <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 mb-4 border border-gray-200">
+    <h3 className="text-lg font-bold text-[#4a688b] mb-2">Otros estudios:</h3>
+    <ul className="list-none space-y-2">
+      {items.map((item, index) => (
+        <li key={index} className="flex items-start text-gray-700">
+          <BookOpen className="mr-2 flex-shrink-0 text-amber-600" size={20} />
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+);
 
-// Nuevo componente para la tarjeta de idioma
-const LanguageCard = ({ language, proficiency }) => {
- return (
- <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 border border-gray-200 flex-1 min-w-[150px] transition-all duration-300 hover:shadow-lg">
-   <div className="flex items-center">
-     <Flag className="w-6 h-6 mr-4 flex-shrink-0 text-amber-600" />
-     <div>
-       <h3 className="text-lg font-bold text-[#4a688b]">{language}</h3>
-       <p className="text-sm font-medium text-gray-600">{proficiency}</p>
-     </div>
-   </div>
- </div>
- );
-};
+// Tarjeta de idioma
+const LanguageCard = ({ language, proficiency }) => (
+  <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 border border-gray-200 flex-1 min-w-[150px] transition-all duration-300 hover:shadow-lg">
+    <div className="flex items-center">
+      <Flag className="w-6 h-6 mr-4 flex-shrink-0 text-amber-600" />
+      <div>
+        <h3 className="text-lg font-bold text-[#4a688b]">{language}</h3>
+        <p className="text-sm font-medium text-gray-600">{proficiency}</p>
+      </div>
+    </div>
+  </div>
+);
 
-// Nuevo componente para mostrar las habilidades
-const SkillsCard = ({ title, icon, iconColor, children }) => {
- return (
- <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 mb-4 border border-gray-200">
-   <div className="flex items-center mb-4">
-     <div className="mr-4 flex-shrink-0" style={{ color: iconColor }}>{icon}</div>
-     <h3 className="text-lg font-bold text-[#4a688b]">{title}</h3>
-   </div>
-   {children}
- </div>
- );
-};
+// Tarjeta para mostrar habilidades
+const SkillsCard = ({ title, icon, iconColor, children }) => (
+  <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 mb-4 border border-gray-200">
+    <div className="flex items-center mb-4">
+      <div className="mr-4 flex-shrink-0" style={{ color: iconColor }}>{icon}</div>
+      <h3 className="text-lg font-bold text-[#4a688b]">{title}</h3>
+    </div>
+    {children}
+  </div>
+);
 
-// Componente para la tarjeta de contacto
+// Tarjeta de contacto (usada con mailto:, tel: y https)
 const ContactCard = ({ icon, label, value, href }) => {
- const isLink = !!href;
- const content = (
- <div className={`bg-white rounded-xl shadow-md p-4 sm:p-6 mb-4 border border-gray-200 transition-all duration-300 ${isLink ? 'bg-gray-100 shadow-lg' : ''}`}>
-   <div className="flex items-start justify-between">
-     <div className="flex items-start">
-       <div className="mr-4 text-amber-600 mt-1 flex-shrink-0">{icon}</div>
-       <div>
-         <p className="text-sm font-semibold text-gray-500">{label}</p>
-         <p className="text-lg font-bold text-[#4a688b] break-words">{value}</p>
-         {isLink && <p className="text-sm text-gray-500 mt-1 break-all">{href}</p>}
-       </div>
-     </div>
-     {isLink && (
-       <div className="transition-opacity duration-300">
-         <ArrowRight size={24} className="text-[#4a688b]" />
-       </div>
-     )}
-   </div>
- </div>
- );
- return isLink ? (
-   <a href={href} className="block" target="_blank" rel="noopener noreferrer">
-     {content}
-   </a>
- ) : (
-   <div className="block cursor-default">
-     {content}
-   </div>
- );
+  const isLink = !!href;
+  const content = (
+    <div className={`bg-white rounded-xl shadow-md p-4 sm:p-6 mb-4 border border-gray-200 transition-all duration-300 ${isLink ? 'bg-gray-100 shadow-lg' : ''}`}>
+      <div className="flex items-start justify-between">
+        <div className="flex items-start">
+          <div className="mr-4 text-amber-600 mt-1 flex-shrink-0">{icon}</div>
+          <div>
+            <p className="text-sm font-semibold text-gray-500">{label}</p>
+            <p className="text-lg font-bold text-[#4a688b] break-words">{value}</p>
+            {isLink && <p className="text-sm text-gray-500 mt-1 break-all">{href}</p>}
+          </div>
+        </div>
+        {isLink && (
+          <div className="transition-opacity duration-300">
+            <ArrowRight size={24} className="text-[#4a688b]" />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+  return isLink ? (
+    <a href={href} className="block" target="_blank" rel="noopener noreferrer">
+      {content}
+    </a>
+  ) : (
+    <div className="block cursor-default">
+      {content}
+    </div>
+  );
 };
 // COMPONENTE PRINCIPAL DE LA APLICACIÓN
 const App = () => {
- const [activeSection, setActiveSection] = useState('perfil');
- const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
- const sectionRefs = useRef({});
- const handleNavigate = (sectionId) => {
-   const element = sectionRefs.current[sectionId];
-   if (element) {
-     element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-   }
-   setIsMobileMenuOpen(false);
- };
- const toggleMobileMenu = () => {
-   setIsMobileMenuOpen(!isMobileMenuOpen);
- };
- useEffect(() => {
-   const observer = new IntersectionObserver(
-     (entries) => {
-       entries.forEach((entry) => {
-         if (entry.isIntersecting) setActiveSection(entry.target.id);
-       });
-     },
-     { threshold: 0.3, rootMargin: '-20px 0px -50% 0px' }
-   );
-   Object.values(sectionRefs.current).forEach((section) => {
-     if (section) observer.observe(section);
-   });
-   return () => observer.disconnect();
- }, []);
- return (
- <div className="min-h-screen bg-gray-50 font-sans antialiased text-gray-800">
- <style>{`
- .static-name { animation: none !important; }
- .static-name span { animation: none !important; }
+  const [activeSection, setActiveSection] = useState('perfil');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const sectionRefs = useRef({});
 
- .typing-cursor {
-   display: inline-block;
-   animation: blink-caret 0.75s step-end infinite;
-   opacity: 1;
- }
- @keyframes blink-caret { from, to { opacity: 0; } 50% { opacity: 1; } }
+  const handleNavigate = (sectionId) => {
+    const element = sectionRefs.current[sectionId];
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    setIsMobileMenuOpen(false);
+  };
 
- @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-100%); } }
- .marquee-container { display: flex; height: 100%; animation: marquee 60s linear infinite; }
- .marquee-container.paused { animation-play-state: paused; }
- .marquee-item {
-   flex-shrink: 0; display: flex; align-items: center; white-space: nowrap; padding: 0 2rem;
-   font-family: 'Inter', sans-serif; font-size: 1.25rem; font-weight: 500; color: #4a688b;
- }
- @media (max-width: 1023px) {
-   .marquee-item { font-size: 1rem; padding: 0 1rem; }
- }
- .marquee-item .icon { color: #d97706; margin-right: 0.5rem; display: inline-block; vertical-align: middle; }
- `}</style>
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
 
- <Navigation
-   activeSection={activeSection}
-   onNavigate={handleNavigate}
-   isMobileMenuOpen={isMobileMenuOpen}
-   toggleMobileMenu={toggleMobileMenu}
- />
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActiveSection(entry.target.id);
+        });
+      },
+      { threshold: 0.3, rootMargin: '-20px 0px -50% 0px' }
+    );
+    Object.values(sectionRefs.current).forEach((section) => {
+      if (section) observer.observe(section);
+    });
+    return () => observer.disconnect();
+  }, []);
 
- {/* Carrusel en la parte superior */}
- <div className="pt-16 lg:pt-0 lg:ml-80">
-   <MarqueeCarousel />
-   {/* CURRICULUM VITAE con efecto de tipeo en MÓVIL (debajo del nav fijo) */}
-   <div className="px-4 pt-2 block lg:hidden">
-     <TypingEffect text="CURRICULUM VITAE" />
-   </div>
- </div>
- 
- <main className="lg:ml-80 p-6 lg:p-8">
-   <Section ref={(el) => (sectionRefs.current.perfil = el)} id="perfil" title="Perfil Profesional">
-     {portfolioData.profile.map((item, index) => (
-       <ProfileCard key={index} icon={item.icon} text={item.text} />
-     ))}
-   </Section>
+  return (
+    <div className="min-h-screen bg-gray-50 font-sans antialiased text-gray-800">
+      <style>{`
+        /* Estáticos: nombre y cursor */
+        .static-name { animation: none !important; }
+        .static-name span { animation: none !important; }
 
-   <Section ref={(el) => (sectionRefs.current.habilidades = el)} id="habilidades" title="Habilidades Destacadas">
-     <div className="space-y-6">
-       <SkillsCard title="Experiencia Ejecutiva" icon={<Briefcase size={24} />} iconColor="#d97706">
-         <p className="text-gray-700">Más de 15 años de experiencia realizando gestiones administrativas clave a nivel ejecutivo para la alta dirección.</p>
-       </SkillsCard>
+        .typing-cursor {
+          display: inline-block;
+          animation: blink-caret 0.75s step-end infinite;
+          opacity: 1;
+        }
+        @keyframes blink-caret { from, to { opacity: 0; } 50% { opacity: 1; } }
 
-       <SkillsCard title="Habilidades de Gestión Gerencial" icon={<LayoutDashboard size={24} />} iconColor="#d97706">
-         <div className="grid md:grid-cols-2 gap-4">
-           {portfolioData.skills.management.map((skill, index) => (
-             <div key={index} className="flex items-start text-gray-700">
-               <CheckCircle size={16} className="text-[#4a688b] mr-2 flex-shrink-0 mt-1" />
-               <span>{skill}</span>
-             </div>
-           ))}
-         </div>
-       </SkillsCard>
+        /* Carrusel */
+        @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+        .marquee-container { display: flex; height: 100%; animation: marquee 60s linear infinite; }
+        .marquee-container.paused { animation-play-state: paused; }
+        .marquee-item {
+          flex-shrink: 0; display: flex; align-items: center; white-space: nowrap; padding: 0 2rem;
+          font-family: 'Inter', sans-serif; font-size: 1.25rem; font-weight: 500; color: #4a688b;
+        }
+        @media (max-width: 1023px) {
+          .marquee-item { font-size: 1rem; padding: 0 1rem; }
+        }
+        .marquee-item .icon { color: #d97706; margin-right: 0.5rem; display: inline-block; vertical-align: middle; }
+      `}</style>
 
-       <SkillsCard title="Competencias" icon={<Gem size={24} />} iconColor="#d97706">
-         <p className="text-gray-700 mb-4">- Desliza el cursor sobre cada competencia para conocer más detalles.</p>
-         <div className="flex flex-wrap gap-2">
-           {Object.entries(portfolioData.skills.tooltips).map(([label, tooltip], idx) => (
-             <div key={idx} className="relative group">
-               <span className="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm cursor-help border border-gray-300 group-hover:shadow-md transition">
-                 {label}
-                 <Info size={12} className="inline-block ml-1 text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-               </span>
-               <div className="absolute z-10 hidden group-hover:block bg-[#a8c0d9] text-gray-900 font-medium text-xs p-3 shadow-xl rounded-md w-64 top-full mt-1 left-1/2 -translate-x-1/2">
-                 {tooltip}
-               </div>
-             </div>
-           ))}
-         </div>
-       </SkillsCard>
+      <Navigation
+        activeSection={activeSection}
+        onNavigate={handleNavigate}
+        isMobileMenuOpen={isMobileMenuOpen}
+        toggleMobileMenu={toggleMobileMenu}
+      />
 
-       <SkillsCard title="Actitud Personal" icon={<HeartHandshake size={24} />} iconColor="#d97706">
-         <p className="text-gray-700">Actitud empática, asertiva y positiva.</p>
-       </SkillsCard>
-     </div>
-   </Section>
+      {/* Carrusel superior */}
+      <div className="pt-16 lg:pt-0 lg:ml-80">
+        <MarqueeCarousel />
+        {/* CURRICULUM VITAE con efecto de tipeo en MÓVIL (debajo del nav fijo) */}
+        <div className="px-4 pt-2 block lg:hidden">
+          <TypingEffect text="CURRICULUM VITAE" />
+        </div>
+      </div>
 
-   <Section ref={(el) => (sectionRefs.current.experiencia = el)} id="experiencia" title="Experiencia Profesional">
-     {portfolioData.experience.map((exp, index) => (
-       <CollapsibleExperience
-         key={index}
-         date={exp.date}
-         title={exp.title}
-         company={exp.company}
-         location={exp.location}
-         description={exp.description}
-         icon={exp.icon}
-       />
-     ))}
-   </Section>
+      <main className="lg:ml-80 p-6 lg:p-8">
+        <Section ref={(el) => (sectionRefs.current.perfil = el)} id="perfil" title="Perfil Profesional">
+          {portfolioData.profile.map((item, index) => (
+            <ProfileCard key={index} icon={item.icon} text={item.text} />
+          ))}
+        </Section>
 
-   <Section ref={(el) => (sectionRefs.current.proyectos = el)} id="proyectos" title="Proyectos de Innovación y Transformación Digital">
-     {portfolioData.projects.map((project, index) => (
-       <CollapsibleExperience
-         key={index}
-         date={project.date}
-         title={project.title}
-         description={project.description}
-         icon={project.icon}
-       />
-     ))}
-   </Section>
+        <Section ref={(el) => (sectionRefs.current.habilidades = el)} id="habilidades" title="Habilidades Destacadas">
+          <div className="space-y-6">
+            <SkillsCard title="Experiencia Ejecutiva" icon={<Briefcase size={24} />} iconColor="#d97706">
+              <p className="text-gray-700">Más de 15 años de experiencia realizando gestiones administrativas clave a nivel ejecutivo para la alta dirección.</p>
+            </SkillsCard>
 
-   <Section ref={(el) => (sectionRefs.current.educacion = el)} id="educacion" title="Educación Académica">
-     {portfolioData.education.map((edu, index) => (
-       <EducationCard
-         key={index}
-         icon={edu.icon}
-         iconColor={edu.iconColor}
-         title={edu.title}
-         period={edu.period}
-         description={edu.description}
-       />
-     ))}
-     <OtherStudies items={portfolioData.otherStudies} />
-   </Section>
+            <SkillsCard title="Habilidades de Gestión Gerencial" icon={<LayoutDashboard size={24} />} iconColor="#d97706">
+              <div className="grid md:grid-cols-2 gap-4">
+                {portfolioData.skills.management.map((skill, index) => (
+                  <div key={index} className="flex items-start text-gray-700">
+                    <CheckCircle size={16} className="text-[#4a688b] mr-2 flex-shrink-0 mt-1" />
+                    <span>{skill}</span>
+                  </div>
+                ))}
+              </div>
+            </SkillsCard>
 
-   <Section ref={(el) => (sectionRefs.current.idiomas = el)} id="idiomas" title="Idiomas">
-     <div className="flex flex-col md:flex-row gap-4">
-       {portfolioData.languages.map((lang, index) => (
-         <LanguageCard key={index} language={lang.language} proficiency={lang.proficiency} />
-       ))}
-     </div>
-   </Section>
+            <SkillsCard title="Competencias" icon={<Gem size={24} />} iconColor="#d97706">
+              <p className="text-gray-700 mb-4">- Desliza el cursor sobre cada competencia para conocer más detalles.</p>
+              <div className="flex flex-wrap gap-2">
+                {Object.entries(portfolioData.skills.tooltips).map(([label, tooltip], idx) => (
+                  <div key={idx} className="relative group">
+                    <span className="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm cursor-help border border-gray-300 group-hover:shadow-md transition">
+                      {label}
+                      <Info size={12} className="inline-block ml-1 text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </span>
+                    <div className="absolute z-10 hidden group-hover:block bg-[#a8c0d9] text-gray-900 font-medium text-xs p-3 shadow-xl rounded-md w-64 top-full mt-1 left-1/2 -translate-x-1/2">
+                      {tooltip}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </SkillsCard>
 
-   <Section ref={(el) => (sectionRefs.current.contacto = el)} id="contacto" title="Contacto">
-     <div className="grid md:grid-cols-2 gap-4">
-       {/* Email con mailto */}
-       <ContactCard
-         icon={<Mail size={24} />}
-         label="Correo Electrónico"
-         value={portfolioData.contact.email}
-         href={`mailto:${portfolioData.contact.email}`}
-       />
-       {/* LinkedIn como antes */}
-       <ContactCard
-         icon={<Linkedin size={24} />}
-         label="LinkedIn"
-         value="Perfil de LinkedIn"
-         href={portfolioData.contact.linkedin}
-       />
-       {/* Teléfono con tel: (sin espacios) */}
-       <ContactCard
-         icon={<Phone size={24} />}
-         label="Teléfono"
-         value={portfolioData.contact.phone}
-         href={`tel:${portfolioData.contact.phone.replace(/\s+/g, '')}`}
-       />
-     </div>
-   </Section>
- </main>
- </div>
- );
+            <SkillsCard title="Actitud Personal" icon={<HeartHandshake size={24} />} iconColor="#d97706">
+              <p className="text-gray-700">Actitud empática, asertiva y positiva.</p>
+            </SkillsCard>
+          </div>
+        </Section>
+
+        <Section ref={(el) => (sectionRefs.current.experiencia = el)} id="experiencia" title="Experiencia Profesional">
+          {portfolioData.experience.map((exp, index) => (
+            <CollapsibleExperience
+              key={index}
+              date={exp.date}
+              title={exp.title}
+              company={exp.company}
+              location={exp.location}
+              description={exp.description}
+              icon={exp.icon}
+            />
+          ))}
+        </Section>
+
+        <Section ref={(el) => (sectionRefs.current.proyectos = el)} id="proyectos" title="Proyectos de Innovación y Transformación Digital">
+          {portfolioData.projects.map((project, index) => (
+            <CollapsibleExperience
+              key={index}
+              date={project.date}
+              title={project.title}
+              description={project.description}
+              icon={project.icon}
+            />
+          ))}
+        </Section>
+
+        <Section ref={(el) => (sectionRefs.current.educacion = el)} id="educacion" title="Educación Académica">
+          {portfolioData.education.map((edu, index) => (
+            <EducationCard
+              key={index}
+              icon={edu.icon}
+              iconColor={edu.iconColor}
+              title={edu.title}
+              period={edu.period}
+              description={edu.description}
+            />
+          ))}
+          <OtherStudies items={portfolioData.otherStudies} />
+        </Section>
+
+        <Section ref={(el) => (sectionRefs.current.idiomas = el)} id="idiomas" title="Idiomas">
+          <div className="flex flex-col md:flex-row gap-4">
+            {portfolioData.languages.map((lang, index) => (
+              <LanguageCard key={index} language={lang.language} proficiency={lang.proficiency} />
+            ))}
+          </div>
+        </Section>
+
+        <Section ref={(el) => (sectionRefs.current.contacto = el)} id="contacto" title="Contacto">
+          <div className="grid md:grid-cols-2 gap-4">
+            {/* Email con mailto */}
+            <ContactCard
+              icon={<Mail size={24} />}
+              label="Correo Electrónico"
+              value={portfolioData.contact.email}
+              href={`mailto:${portfolioData.contact.email}`}
+            />
+            {/* LinkedIn como antes */}
+            <ContactCard
+              icon={<Linkedin size={24} />}
+              label="LinkedIn"
+              value="Perfil de LinkedIn"
+              href={portfolioData.contact.linkedin}
+            />
+            {/* Teléfono con tel: (sin espacios) */}
+            <ContactCard
+              icon={<Phone size={24} />}
+              label="Teléfono"
+              value={portfolioData.contact.phone}
+              href={`tel:${portfolioData.contact.phone.replace(/\s+/g, '')}`}
+            />
+          </div>
+        </Section>
+      </main>
+    </div>
+  );
 };
+
 export default App;
