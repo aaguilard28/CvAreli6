@@ -622,7 +622,7 @@ const App = () => {
             </SkillsCard>
 
             <SkillsCard title="Actitud Personal" icon={<HeartHandshake size={24} />} iconColor="#d97706">
-              <p className="text-gray-700">Actitud empática, asertiva y positiva.</p>
+              <p className="text-gray-700">Empática, asertiva y positiva.</p>
             </SkillsCard>
           </div>
         </Section>
