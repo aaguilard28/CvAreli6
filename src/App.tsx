@@ -1,204 +1,276 @@
-import React, {useState, useEffect, useRef } from 'react';
-import { User, Briefcase, GraduationCap, Globe, Zap, Brain, Landmark, FileText, HardHat, Users,
- BarChart, Gem, Lightbulb, Info, Settings, Bot, Handshake, BookOpen, Flag, LayoutDashboard,
- CheckCircle, HeartHandshake, Phone, Mail, Linkedin, Download, Home, ArrowRight } from
- 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  User, Briefcase, GraduationCap, Globe, Zap, Brain, Landmark, FileText, HardHat, Users,
+  BarChart, Gem, Lightbulb, Info, Settings, Bot, Handshake, BookOpen, Flag, LayoutDashboard,
+  CheckCircle, HeartHandshake, Phone, Mail, Linkedin, ArrowRight
+} from 'lucide-react';
 
-// DATA STRUCTURE - TODOS LOS DATOS EN UN SOLO OBJETO PARA FACILITAR LA GESTIÓN Y
-// FUTURAS ACTUALIZACIONES
+// ===================== DATOS =====================
 const portfolioData = {
- profile: [
- {
- icon: <Briefcase size={24}/>,
- text: "Ejecutiva bilingüe (inglés/español) con más de 20 años de experiencia en desarrollo de negocios, gestión estratégica de proyectos y análisis de información clave para la toma de decisiones de alta dirección.",
- },
- {
- icon: <Settings size={24}/>,
- text: "Mi trayectoria combina habilidades avanzadas en planeación y gestión administrativa con una visión estratégica orientada a la transformación digital. Integro tecnologías emergentes - incluida la inteligencia artificial- para modernizar procesos, fortalecer la gestión empresarial y optimizar la toma de decisiones, impulsando la eficiencia operativa y la identificación de oportunidades estratégicas.",
- },
- {
- icon: <Bot size={24}/>,
- text: "Actualmente participo en equipos interdisciplinarios que aplican inteligencia artificial en entornos empresariales, desarrollando soluciones innovadoras con impacto tangible en la organización.",
- },
- {
- icon: <Handshake size={24}/>,
- text: "Cuento con amplia experiencia generando relaciones comerciales estratégicas entre organizaciones privadas y públicas, mediante propuestas alineadas con objetivos corporativos. Me distingo por mi capacidad para identificar necesidades del cliente, gestionar ventas de forma estructurada y construir vínculos institucionales sólidos. Tengo una orientación constante a resultados y un firme compromiso con el cumplimiento de metas organizacionales.",
- },
- ],
- skills: {
- tooltips: {
- 'MS Office': 'Word, Excel, Outlook, Power Point - Nivel Avanzado',
- 'Motores de búsqueda': 'Búsqueda avanzada y análisis de información',
- 'Correo electrónico': 'Habilidad clave para alinear relaciones, procesos y objetivos',
- 'Soluciones inteligentes': 'Implementación de Inteligencia Artificial para optimización de procesos',
- 'Tecnologías emergentes': 'Adaptación e integración de nuevas tecnologías en procesos de negocio',
- 'Gestión empresarial': 'Visión integral del negocio para la optimización de recursos',
- 'Análisis Estratégico': 'Evaluación de datos para la toma de decisiones de alto nivel',
- },
- management: [
- 'Altamente organizada y autónoma',
- 'Precisión y confidencialidad de la información',
- 'Respuesta eficaz a cambios de prioridades',
- 'Habilidad destacada en negociación',
- 'Fuertes habilidades analíticas y de resolución de problemas',
- 'Atención al detalle',
- 'Gestión múltiple de tareas y personas',
- 'Capacidad de adaptación y aprendizaje independiente',
- 'Habilidades interpersonales y de comunicación',
- 'Filosofía orientada al trabajo en equipo',
- ],
- },
- experience: [
- {
- date: 'Febrero 2024 - Actualidad',
- title: 'Colaboración Actual en Proyectos Empresariales con Inteligencia Artificial',
- company: 'Rol transversal | Transformación digital y estrategia con tecnologías emergentes',
- description: [
- 'Participación activa en equipos multidisciplinarios dedicados al desarrollo de soluciones empresariales mediante el uso estratégico de inteligencia artificial.',
- 'Diseño, conceptualización y aplicación de iniciativas de transformación digital con impacto directo en la eficiencia operativa, la gestión de información y la toma de decisiones.',
- 'Colaboración en la implementación de herramientas tecnológicas emergentes para modernizar procesos clave y fortalecer el desempeño organizacional.',
- 'Aportación de perspectiva estratégica, visión de negocio y experiencia ejecutiva al diseño de soluciones inteligentes adaptadas a necesidades reales del entorno empresarial.',
- ],
- icon: <Zap size={24}/>,
- },
- {
- date: 'Abril 2020 - Enero 2022',
- title: 'Jefatura de Promoción y Gestión',
- company: 'Aeropuertos y Servicios Auxiliares (Organización Gubernamental)',
- location: 'Dirección Técnica y Consultoría',
- description: [
- 'Encargada de estructurar y gestionar información confidencial de siete áreas con el propósito de optimizar la toma de decisiones.',
- 'Colaboré en la gestión y coordinación de comités, como obras públicas, transparencia, ética, licitaciones, adquisiciones y operaciones.',
- 'Propuse y lideré la ejecución de una alianza estratégica con diversos "stakeholders" buscando generar ahorros significativos para la construcción y mantenimiento de infraestructuras aeroportuarias (20%).',
- 'Coordiné negociaciones entre distintos departamentos, tanto internos como externos.',
- 'Elaboré informes internos para el seguimiento y cumplimiento de los objetivos de la dirección.',
- 'Implementé procedimientos para la clasificación de información confidencial.',
- ],
- icon: <Landmark size={24}/>,
- },
- {
- date: 'Mayo 2018 - Abril 2020',
- title: 'Consultor de Proyectos',
- company: "",
- description: [
- 'Colaboré en el desarrollo de la estrategia comercial para el mercado de telefonía celular prepagada de la empresa AT&T.',
- 'Identifiqué oportunidades de negocio para proyectos de infraestructura y fungí como enlace entre el gobierno y las empresas de construcción.',
- 'Consolidé y gestioné el arrendamiento de cuatro propiedades residenciales, lo cual incluyó la búsqueda de posibles clientes, la promoción a través de sitios web especializados y redes sociales, la negociación, así como la revisión de evaluaciones legales y contratos con firmas de abogados.',
- ],
- icon: <FileText size={24}/>
- },
- {
- date: 'Marzo 2014 - Mayo 2018',
- title: 'Gerente - Ventas a Gobierno e Infraestructura',
- company: 'Cementos Mexicanos - CEMEX',
- description: [
- 'Mantuve y actualicé bases de datos cruciales para proyectos potenciales y clientes.',
- 'Desarrollé el papel clave como intermediario principal entre el sector gubernamental y la empresa.',
- 'Establecí sólidas redes institucionales para identificar valiosas oportunidades comerciales.',
- 'Pronostiqué oportunidades de negocio, gestioné clientes potenciales y cerré exitosamente proyectos.',
- 'Encargada de la prospección, desarrollo e implementación de proyectos de infraestructura en colaboración con el gobierno.',
- 'Brindé apoyo y coordiné diversas áreas, desempeñando funciones administrativas y de gestión de proyectos (ventas, cartera, legal, calidad, planta, supervisión de obra, licitaciones, entre otros).',
- 'Logré el exitoso cierre de un proyecto para pavimentar 25 calles en el centro de la Ciudad de México, en la Zona Rosa (USD \$35M).',
- 'Responsable de la generación de informes para la alta dirección.',
- ],
- icon: <HardHat size={24}/>,
- },
- {
- date: 'Mayo 2004 - Marzo 2014',
- title: 'Especialista Senior en Información y Enlace - Relaciones Institucionales',
- company: 'Cementos Mexicanos - CEMEX',
- description: [
- 'Al tratarse de un área nueva, desempeñé un papel fundamental en la estructuración e implementación de procesos administrativos alineados con las políticas de la empresa.',
- 'Supervisé indicadores clave para facilitar la planificación estratégica, diseñar estrategias comerciales y apoyar la toma de decisiones.',
- 'Encargada de la gestión integral y consolidación de información.',
- 'Brindé respaldo a procesos operativos y administrativos, incluyendo la elaboración y seguimiento de presupuestos, generación de informes mensuales de resultados, preparación de presentaciones institucionales, coordinación de entregas, seguimiento de pedidos, entre otros.',
- 'Participé activamente en el análisis para seleccionar proyectos y empresas a atender en esta área, en conformidad con las políticas de la empresa.',
- 'Contribuí a la organización de información crucial para un proyecto de pavimentación en una de las avenidas más importantes de la Ciudad de México (USD \$105M).',
- ],
- icon: <Users size={24}/>,
- },
- {
- date: 'Junio 1999 - Mayo 2004',
- title: 'Jefatura de Soporte Operativo - Ventas Institucionales',
- company: 'Cementos Mexicanos - CEMEX',
- description: [
- 'Encargada de centralizar la información de ventas a nivel nacional para clientes del sector de construcción y transformadores.',
- 'Participé activamente en el análisis de términos comerciales aplicables a cada cliente del ámbito de construcción y transformación.',
- 'Responsable de implementar estrategias administrativas y brindar respaldo a las tareas operativas.',
- 'Coordiné el establecimiento de controles e indicadores fundamentales para empresas del sector de construcción.',
- 'Contribuí al éxito en la recuperación del 40% de la cartera incobrable.',
- 'Encargada de liderar la implementación de un sistema ERP (Planificación de Recursos Empresariales) a nivel nacional para el segmento institucional.',
- 'Gestioné eficazmente la estrategia de precios mediante cotizaciones y negociaciones internas específicas, tales como establecer precios por volumen, gestionar entregas, tipos de productos, entre otros.',
- ],
- icon: <BarChart size={24}/>,
- },
- ],
- projects: [
- {
- title: 'AI STARS LEAGUE',
- date: 'Diciembre 2024 - Junio 2025',
- description: [
- 'Participación activa en una competencia internacional de alto rendimiento en inteligencia artificial aplicada.',
- 'Integré equipos multidisciplinarios para resolver desafíos reales mediante tecnologías de IA, combinando pensamiento estratégico, innovación y visión de negocio.',
- 'Diseñé y presenté soluciones con impacto empresarial, aplicando habilidades avanzadas en automatización, análisis de datos, generación de contenido con IA y desarrollo de herramientas inteligentes.',
- 'Colaboré en proyectos enfocados en transformación digital, visualización de datos y mejora de procesos organizacionales.',
- 'Fui evaluada por un panel de expertos internacionales en IA, innovación y consultoría estratégica.',
- 'La experiencia fortaleció mis competencias para integrar inteligencia artificial en contextos reales, potenciar la resolución creativa de problemas y acelerar la implementación de soluciones tecnológicas.',
- 'Participé en sesiones de capacitación técnica especializada y actividades de networking internacional con líderes y profesionales de alto nivel del ecosistema tecnológico global.',
- ],
- icon: <Brain size={24}/>
- },
- ],
- education: [
- {
- icon: <Brain size={24}/>,
- iconColor: '#8B5CF6',
- title: 'LEARNING HEROES',
- period: '2024-2025',
- description: [
- 'Programa Intensivo de Transformación Digital',
- 'Especialización en Inteligencia Artificial Aplicada enfocado en implementación de soluciones inteligentes, optimización de procesos empresariales y aplicación práctica de tecnologías emergentes en entornos corporativos.'
- ]
- },
- {
- icon: <BookOpen size={24}/>,
- iconColor: '#8B5CF6',
- title: 'Diplomado en Marketing Digital',
- period: '2022',
- description: 'ITAM',
- },
- {
- icon: <Landmark size={24}/>,
- iconColor: '#3B82F6',
- title: 'ITESM',
- period: '2002-2004',
- description: 'Master en Administración de Negocios (MBA)',
- },
- {
- icon: <Landmark size={24}/>,
- iconColor: '#3B82F6',
- title: 'ITESM',
- period: '1991-1995',
- description: 'Licenciatura en Mercadotecnia (Mención Honorífica)',
- },
- ],
- otherStudies: [
- 'Diploma en Gestión Estratégica de las Finanzas Públicas; ITESM; 2016-2017.',
- 'Diploma en Mercadotecnia Competitiva; World Trade Center, Business Center; 1997-1998.',
- 'Diploma en Finanzas; ITESM; 1994 - 1995.'
- ],
- languages: [
- {language: 'Español', proficiency: 'Lengua nativa' },
- {language: 'Inglés', proficiency: 'Fluido' },
- ],
- contact: {
- email: 'areliaguilarln@gmail.com',
- phone: '55 4341 3490',
- linkedin: 'https://www.linkedin.com/in/areli-aguilar/',
- cvUrl: '#',
- },
+  profile: [
+    {
+      icon: <Briefcase size={24} />,
+      text:
+        "Ejecutiva bilingüe (inglés/español) con más de 20 años de experiencia en desarrollo de negocios, gestión estratégica de proyectos y análisis de información clave para la toma de decisiones de alta dirección.",
+    },
+    {
+      icon: <Settings size={24} />,
+      text:
+        "Mi trayectoria combina habilidades avanzadas en planeación y gestión administrativa con una visión estratégica orientada a la transformación digital. Integro tecnologías emergentes - incluida la inteligencia artificial- para modernizar procesos, fortalecer la gestión empresarial y optimizar la toma de decisiones, impulsando la eficiencia operativa y la identificación de oportunidades estratégicas.",
+    },
+    {
+      icon: <Bot size={24} />,
+      text:
+        "Actualmente participo en equipos interdisciplinarios que aplican inteligencia artificial en entornos empresariales, desarrollando soluciones innovadoras con impacto tangible en la organización.",
+    },
+    {
+      icon: <Handshake size={24} />,
+      text:
+        "Cuento con amplia experiencia generando relaciones comerciales estratégicas entre organizaciones privadas y públicas, mediante propuestas alineadas con objetivos corporativos. Me distingo por mi capacidad para identificar necesidades del cliente, gestionar ventas de forma estructurada y construir vínculos institucionales sólidos. Tengo una orientación constante a resultados y un firme compromiso con el cumplimiento de metas organizacionales.",
+    },
+  ],
+  skills: {
+    tooltips: {
+      'MS Office': 'Word, Excel, Outlook, Power Point - Nivel Avanzado',
+      'Motores de búsqueda': 'Búsqueda avanzada y análisis de información',
+      'Correo electrónico': 'Habilidad clave para alinear relaciones, procesos y objetivos',
+      'Soluciones inteligentes': 'Implementación de Inteligencia Artificial para optimización de procesos',
+      'Tecnologías emergentes': 'Adaptación e integración de nuevas tecnologías en procesos de negocio',
+      'Gestión empresarial': 'Visión integral del negocio para la optimización de recursos',
+      'Análisis Estratégico': 'Evaluación de datos para la toma de decisiones de alto nivel',
+    },
+    management: [
+      'Altamente organizada y autónoma',
+      'Precisión y confidencialidad de la información',
+      'Respuesta eficaz a cambios de prioridades',
+      'Habilidad destacada en negociación',
+      'Fuertes habilidades analíticas y de resolución de problemas',
+      'Atención al detalle',
+      'Gestión múltiple de tareas y personas',
+      'Capacidad de adaptación y aprendizaje independiente',
+      'Habilidades interpersonales y de comunicación',
+      'Filosofía orientada al trabajo en equipo',
+    ],
+  },
+  experience: [
+    {
+      date: 'Febrero 2024 - Actualidad',
+      title: 'Colaboración Actual en Proyectos Empresariales con Inteligencia Artificial',
+      company: 'Rol transversal | Transformación digital y estrategia con tecnologías emergentes',
+      description: [
+        'Participación activa en equipos multidisciplinarios dedicados al desarrollo de soluciones empresariales mediante el uso estratégico de inteligencia artificial.',
+        'Diseño, conceptualización y aplicación de iniciativas de transformación digital con impacto directo en la eficiencia operativa, la gestión de información y la toma de decisiones.',
+        'Colaboración en la implementación de herramientas tecnológicas emergentes para modernizar procesos clave y fortalecer el desempeño organizacional.',
+        'Aportación de perspectiva estratégica, visión de negocio y experiencia ejecutiva al diseño de soluciones inteligentes adaptadas a necesidades reales del entorno empresarial.',
+      ],
+      icon: <Zap size={24} />,
+    },
+    {
+      date: 'Abril 2020 - Enero 2022',
+      title: 'Jefatura de Promoción y Gestión',
+      company: 'Aeropuertos y Servicios Auxiliares (Organización Gubernamental)',
+      location: 'Dirección Técnica y Consultoría',
+      description: [
+        'Encargada de estructurar y gestionar información confidencial de siete áreas con el propósito de optimizar la toma de decisiones.',
+        'Colaboré en la gestión y coordinación de comités, como obras públicas, transparencia, ética, licitaciones, adquisiciones y operaciones.',
+        'Propuse y lideré la ejecución de una alianza estratégica con diversos "stakeholders" buscando generar ahorros significativos para la construcción y mantenimiento de infraestructuras aeroportuarias (20%).',
+        'Coordiné negociaciones entre distintos departamentos, tanto internos como externos.',
+        'Elaboré informes internos para el seguimiento y cumplimiento de los objetivos de la dirección.',
+        'Implementé procedimientos para la clasificación de información confidencial.',
+      ],
+      icon: <Landmark size={24} />,
+    },
+    {
+      date: 'Mayo 2018 - Abril 2020',
+      title: 'Consultor de Proyectos',
+      company: '',
+      description: [
+        'Colaboré en el desarrollo de la estrategia comercial para el mercado de telefonía celular prepagada de la empresa AT&T.',
+        'Identifiqué oportunidades de negocio para proyectos de infraestructura y fungí como enlace entre el gobierno y las empresas de construcción.',
+        'Consolidé y gestioné el arrendamiento de cuatro propiedades residenciales, lo cual incluyó la búsqueda de posibles clientes, la promoción a través de sitios web especializados y redes sociales, la negociación, así como la revisión de evaluaciones legales y contratos con firmas de abogados.',
+      ],
+      icon: <FileText size={24} />,
+    },
+    {
+      date: 'Marzo 2014 - Mayo 2018',
+      title: 'Gerente - Ventas a Gobierno e Infraestructura',
+      company: 'Cementos Mexicanos - CEMEX',
+      description: [
+        'Mantuve y actualicé bases de datos cruciales para proyectos potenciales y clientes.',
+        'Desarrollé el papel clave como intermediario principal entre el sector gubernamental y la empresa.',
+        'Establecí sólidas redes institucionales para identificar valiosas oportunidades comerciales.',
+        'Pronostiqué oportunidades de negocio, gestioné clientes potenciales y cerré exitosamente proyectos.',
+        'Encargada de la prospección, desarrollo e implementación de proyectos de infraestructura en colaboración con el gobierno.',
+        'Brindé apoyo y coordiné diversas áreas, desempeñando funciones administrativas y de gestión de proyectos (ventas, cartera, legal, calidad, planta, supervisión de obra, licitaciones, entre otros).',
+        'Logré el exitoso cierre de un proyecto para pavimentar 25 calles en el centro de la Ciudad de México, en la Zona Rosa (USD $35M).',
+        'Responsable de la generación de informes para la alta dirección.',
+      ],
+      icon: <HardHat size={24} />,
+    },
+    {
+      date: 'Mayo 2004 - Marzo 2014',
+      title: 'Especialista Senior en Información y Enlace - Relaciones Institucionales',
+      company: 'Cementos Mexicanos - CEMEX',
+      description: [
+        'Al tratarse de un área nueva, desempeñé un papel fundamental en la estructuración e implementación de procesos administrativos alineados con las políticas de la empresa.',
+        'Supervisé indicadores clave para facilitar la planificación estratégica, diseñar estrategias comerciales y apoyar la toma de decisiones.',
+        'Encargada de la gestión integral y consolidación de información.',
+        'Brindé respaldo a procesos operativos y administrativos, incluyendo la elaboración y seguimiento de presupuestos, generación de informes mensuales de resultados, preparación de presentaciones institucionales, coordinación de entregas, seguimiento de pedidos, entre otros.',
+        'Participé activamente en el análisis para seleccionar proyectos y empresas a atender en esta área, en conformidad con las políticas de la empresa.',
+        'Contribuí a la organización de información crucial para un proyecto de pavimentación en una de las avenidas más importantes de la Ciudad de México (USD $105M).',
+      ],
+      icon: <Users size={24} />,
+    },
+    {
+      date: 'Junio 1999 - Mayo 2004',
+      title: 'Jefatura de Soporte Operativo - Ventas Institucionales',
+      company: 'Cementos Mexicanos - CEMEX',
+      description: [
+        'Encargada de centralizar la información de ventas a nivel nacional para clientes del sector de construcción y transformadores.',
+        'Participé activamente en el análisis de términos comerciales aplicables a cada cliente del ámbito de construcción y transformación.',
+        'Responsable de implementar estrategias administrativas y brindar respaldo a las tareas operativas.',
+        'Coordiné el establecimiento de controles e indicadores fundamentales para empresas del sector de construcción.',
+        'Contribuí al éxito en la recuperación del 40% de la cartera incobrable.',
+        'Encargada de liderar la implementación de un sistema ERP (Planificación de Recursos Empresariales) a nivel nacional para el segmento institucional.',
+        'Gestioné eficazmente la estrategia de precios mediante cotizaciones y negociaciones internas específicas, tales como establecer precios por volumen, gestionar entregas, tipos de productos, entre otros.',
+      ],
+      icon: <BarChart size={24} />,
+    },
+  ],
+  projects: [
+    {
+      title: 'AI STARS LEAGUE',
+      date: 'Diciembre 2024 - Junio 2025',
+      description: [
+        'Participación activa en una competencia internacional de alto rendimiento en inteligencia artificial aplicada.',
+        'Integré equipos multidisciplinarios para resolver desafíos reales mediante tecnologías de IA, combinando pensamiento estratégico, innovación y visión de negocio.',
+        'Diseñé y presenté soluciones con impacto empresarial, aplicando habilidades avanzadas en automatización, análisis de datos, generación de contenido con IA y desarrollo de herramientas inteligentes.',
+        'Colaboré en proyectos enfocados en transformación digital, visualización de datos y mejora de procesos organizacionales.',
+        'Fui evaluada por un panel de expertos internacionales en IA, innovación y consultoría estratégica.',
+        'La experiencia fortaleció mis competencias para integrar inteligencia artificial en contextos reales, potenciar la resolución creativa de problemas y acelerar la implementación de soluciones tecnológicas.',
+        'Participé en sesiones de capacitación técnica especializada y actividades de networking internacional con líderes y profesionales de alto nivel del ecosistema tecnológico global.',
+      ],
+      icon: <Brain size={24} />,
+    },
+  ],
+  education: [
+    {
+      icon: <Brain size={24} />,
+      iconColor: '#8B5CF6',
+      title: 'LEARNING HEROES',
+      period: '2024-2025',
+      description: [
+        'Programa Intensivo de Transformación Digital',
+        'Especialización en Inteligencia Artificial Aplicada enfocado en implementación de soluciones inteligentes, optimización de procesos empresariales y aplicación práctica de tecnologías emergentes en entornos corporativos.'
+      ]
+    },
+    {
+      icon: <BookOpen size={24} />,
+      iconColor: '#8B5CF6',
+      title: 'Diplomado en Marketing Digital',
+      period: '2022',
+      description: 'ITAM',
+    },
+    {
+      icon: <Landmark size={24} />,
+      iconColor: '#3B82F6',
+      title: 'ITESM',
+      period: '2002-2004',
+      description: 'Master en Administración de Negocios (MBA)',
+    },
+    {
+      icon: <Landmark size={24} />,
+      iconColor: '#3B82F6',
+      title: 'ITESM',
+      period: '1991-1995',
+      description: 'Licenciatura en Mercadotecnia (Mención Honorífica)',
+    },
+  ],
+  otherStudies: [
+    'Diploma en Gestión Estratégica de las Finanzas Públicas; ITESM; 2016-2017.',
+    'Diploma en Mercadotecnia Competitiva; World Trade Center, Business Center; 1997-1998.',
+    'Diploma en Finanzas; ITESM; 1994 - 1995.'
+  ],
+  languages: [
+    { language: 'Español', proficiency: 'Lengua nativa' },
+    { language: 'Inglés', proficiency: 'Fluido' },
+  ],
+  contact: {
+    email: 'areliaguilarln@gmail.com',
+    phone: '55 4341 3490',
+    linkedin: 'https://www.linkedin.com/in/areli-aguilar/',
+    cvUrl: '#',
+  },
 };
-// COMPONENTES
+
+// ===================== COMPONENTES AUX =====================
+const MarqueeCarousel = () => {
+  const [isHovering, setIsHovering] = useState(false);
+  const phrases = [
+    { text: 'Estrategia Empresarial', icon: <Landmark size={24} /> },
+    { text: 'Orientación a Resultados', icon: <BarChart size={24} /> },
+    { text: 'Pensamiento Crítico y Sistémico', icon: <Brain size={24} /> },
+    { text: 'IA y Tecnología en Evolución', icon: <Zap size={24} /> },
+    { text: 'Gestión de Proyectos', icon: <LayoutDashboard size={24} /> },
+    { text: 'Análisis para la Toma de Decisiones', icon: <Gem size={24} /> }
+  ];
+  const fullContent = [...phrases, ...phrases];
+  return (
+    <div
+      className="bg-transparent overflow-hidden h-12 w-full mt-4 marquee-container-wrapper flex items-center"
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+    >
+      <div className={`marquee-container ${isHovering ? 'paused' : ''}`}>
+        {fullContent.map((item, index) => (
+          <div key={index} className="marquee-item">
+            <span className="icon">{item.icon}</span>
+            <span>{item.text}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const TypingEffect = ({ text }: { text: string }) => {
+  const [displayedText, setDisplayedText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [speed, setSpeed] = useState(100);
+
+  useEffect(() => {
+    const handleTyping = () => {
+      if (!isDeleting) {
+        if (displayedText.length < text.length) {
+          setDisplayedText(text.substring(0, displayedText.length + 1));
+          setSpeed(100);
+        } else {
+          setSpeed(2000);
+          setIsDeleting(true);
+        }
+      } else {
+        if (displayedText.length > 0) {
+          setDisplayedText(text.substring(0, displayedText.length - 1));
+          setSpeed(50);
+        } else {
+          setSpeed(500);
+          setIsDeleting(false);
+        }
+      }
+    };
+    const t = setTimeout(handleTyping, speed);
+    return () => clearTimeout(t);
+  }, [displayedText, isDeleting, speed, text]);
+
+  return (
+    <h2 className="text-xl font-bold font-sans tracking-wider mb-2 text-[#4a688b]">
+      {displayedText}
+      <span className="typing-cursor">|</span>
+    </h2>
+  );
+};
+
+// ===================== UI =====================
 const Navigation = ({ activeSection, onNavigate, isMobileMenuOpen, toggleMobileMenu }) => {
   const sections = [
     { id: 'perfil', title: 'Perfil Profesional', icon: <User size={20} /> },
@@ -209,6 +281,7 @@ const Navigation = ({ activeSection, onNavigate, isMobileMenuOpen, toggleMobileM
     { id: 'idiomas', title: 'Idiomas', icon: <Globe size={20} /> },
     { id: 'contacto', title: 'Contacto', icon: <Handshake size={20} /> },
   ];
+
   return (
     <nav className="fixed lg:left-0 top-0 w-full lg:w-80 h-16 lg:h-screen bg-[#1e2a38] text-gray-200 shadow-2xl z-50">
       <div className="container mx-auto px-4 lg:px-0 h-full flex items-center justify-between lg:block">
@@ -216,11 +289,10 @@ const Navigation = ({ activeSection, onNavigate, isMobileMenuOpen, toggleMobileM
           <div className="flex-shrink-0 flex items-center lg:flex-col lg:text-center">
             <User size={32} className="text-amber-600 mr-3 lg:mb-4" />
             <div className="flex flex-col items-center">
-              {/* En desktop, el efecto de tipeo se muestra aquí */}
               <div className="hidden lg:block">
                 <TypingEffect text="CURRICULUM VITAE" />
               </div>
-              {/* SOLO MÓVIL: nombre más pequeño; escritorio intacto */}
+              {/* Nombre: pequeño en móvil; intacto en escritorio */}
               <h1 className="static-name font-bold font-sans text-gray-50 text-xs sm:text-xl lg:text-2xl leading-tight text-center">
                 <span className="block">ARELI</span>
                 <span className="block">AGUILAR</span>
@@ -267,8 +339,7 @@ const Navigation = ({ activeSection, onNavigate, isMobileMenuOpen, toggleMobileM
   );
 };
 
-// Componente para las secciones
-const Section = React.forwardRef(({ id, title, children }, ref) => {
+const Section = React.forwardRef(({ id, title, children }, ref: any) => {
   const isExpandableSection = id === 'experiencia' || id === 'proyectos';
   return (
     <section
@@ -290,11 +361,9 @@ const Section = React.forwardRef(({ id, title, children }, ref) => {
   );
 });
 
-// Componente para mostrar la experiencia profesional y proyectos de forma colapsable.
 const CollapsibleExperience = ({ date, title, company, location, description, icon }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const toggleOpen = () => setIsOpen(!isOpen);
-  const contentRef = useRef(null);
+  const contentRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (contentRef.current) {
@@ -305,7 +374,7 @@ const CollapsibleExperience = ({ date, title, company, location, description, ic
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden mb-4 border border-gray-200">
       <button
-        onClick={toggleOpen}
+        onClick={() => setIsOpen(!isOpen)}
         className="w-full flex justify-between items-center p-4 sm:p-6 text-left transition-colors duration-200 hover:bg-gray-50 focus:outline-none"
       >
         <div className="flex items-start">
@@ -319,10 +388,7 @@ const CollapsibleExperience = ({ date, title, company, location, description, ic
         </div>
         <svg
           className={`w-6 h-6 transform transition-transform duration-300 text-[#4a688b] ${isOpen ? 'rotate-180' : ''}`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
+          fill="none" stroke="currentColor" viewBox="0 0 24 24"
         >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
@@ -335,8 +401,8 @@ const CollapsibleExperience = ({ date, title, company, location, description, ic
       >
         <div className="px-6 pb-6 pt-2 border-t border-gray-200">
           <ul className="list-none space-y-2">
-            {description.map((item, index) => (
-              <li key={index} className="flex items-start text-gray-700">
+            {description.map((item: string, idx: number) => (
+              <li key={idx} className="flex items-start text-gray-700">
                 <span className="text-amber-600 mr-2 flex-shrink-0">&rarr;</span>
                 <span>{item}</span>
               </li>
@@ -348,7 +414,6 @@ const CollapsibleExperience = ({ date, title, company, location, description, ic
   );
 };
 
-// Componente para las tarjetas del perfil profesional
 const ProfileCard = ({ icon, text }) => (
   <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 mb-4 border border-gray-200">
     <div className="flex items-start">
@@ -358,7 +423,6 @@ const ProfileCard = ({ icon, text }) => (
   </div>
 );
 
-// Tarjeta de educación
 const EducationCard = ({ icon, iconColor, title, period, description }) => (
   <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 mb-4 border border-gray-200">
     <div className="flex items-start">
@@ -368,8 +432,8 @@ const EducationCard = ({ icon, iconColor, title, period, description }) => (
         <p className="text-sm font-medium text-gray-600 mb-2">{period}</p>
         {Array.isArray(description) ? (
           <ul className="list-none space-y-2">
-            {description.map((item, index) => (
-              <li key={index} className="flex items-start text-gray-700">
+            {description.map((item: string, idx: number) => (
+              <li key={idx} className="flex items-start text-gray-700">
                 <span className="text-amber-600 mr-2 flex-shrink-0">&rarr;</span>
                 <span>{item}</span>
               </li>
@@ -383,13 +447,12 @@ const EducationCard = ({ icon, iconColor, title, period, description }) => (
   </div>
 );
 
-// Lista de "Otros estudios"
 const OtherStudies = ({ items }) => (
   <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 mb-4 border border-gray-200">
     <h3 className="text-lg font-bold text-[#4a688b] mb-2">Otros estudios:</h3>
     <ul className="list-none space-y-2">
-      {items.map((item, index) => (
-        <li key={index} className="flex items-start text-gray-700">
+      {items.map((item: string, idx: number) => (
+        <li key={idx} className="flex items-start text-gray-700">
           <BookOpen className="mr-2 flex-shrink-0 text-amber-600" size={20} />
           <span>{item}</span>
         </li>
@@ -398,7 +461,6 @@ const OtherStudies = ({ items }) => (
   </div>
 );
 
-// Tarjeta de idioma
 const LanguageCard = ({ language, proficiency }) => (
   <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 border border-gray-200 flex-1 min-w-[150px] transition-all duration-300 hover:shadow-lg">
     <div className="flex items-center">
@@ -411,7 +473,6 @@ const LanguageCard = ({ language, proficiency }) => (
   </div>
 );
 
-// Tarjeta para mostrar habilidades
 const SkillsCard = ({ title, icon, iconColor, children }) => (
   <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 mb-4 border border-gray-200">
     <div className="flex items-center mb-4">
@@ -422,7 +483,6 @@ const SkillsCard = ({ title, icon, iconColor, children }) => (
   </div>
 );
 
-// Tarjeta de contacto (usada con mailto:, tel: y https)
 const ContactCard = ({ icon, label, value, href }) => {
   const isLink = !!href;
   const content = (
@@ -449,28 +509,23 @@ const ContactCard = ({ icon, label, value, href }) => {
       {content}
     </a>
   ) : (
-    <div className="block cursor-default">
-      {content}
-    </div>
+    <div className="block cursor-default">{content}</div>
   );
 };
-// COMPONENTE PRINCIPAL DE LA APLICACIÓN
+
+// ===================== APP =====================
 const App = () => {
   const [activeSection, setActiveSection] = useState('perfil');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const sectionRefs = useRef({});
+  const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
 
-  const handleNavigate = (sectionId) => {
+  const handleNavigate = (sectionId: string) => {
     const element = sectionRefs.current[sectionId];
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     setIsMobileMenuOpen(false);
   };
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -490,18 +545,12 @@ const App = () => {
   return (
     <div className="min-h-screen bg-gray-50 font-sans antialiased text-gray-800">
       <style>{`
-        /* Estáticos: nombre y cursor */
         .static-name { animation: none !important; }
         .static-name span { animation: none !important; }
 
-        .typing-cursor {
-          display: inline-block;
-          animation: blink-caret 0.75s step-end infinite;
-          opacity: 1;
-        }
+        .typing-cursor { display: inline-block; animation: blink-caret 0.75s step-end infinite; opacity: 1; }
         @keyframes blink-caret { from, to { opacity: 0; } 50% { opacity: 1; } }
 
-        /* Carrusel */
         @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-100%); } }
         .marquee-container { display: flex; height: 100%; animation: marquee 60s linear infinite; }
         .marquee-container.paused { animation-play-state: paused; }
@@ -525,7 +574,7 @@ const App = () => {
       {/* Carrusel superior */}
       <div className="pt-16 lg:pt-0 lg:ml-80">
         <MarqueeCarousel />
-        {/* CURRICULUM VITAE con efecto de tipeo en MÓVIL (debajo del nav fijo) */}
+        {/* CURRICULUM VITAE en móvil debajo del nav */}
         <div className="px-4 pt-2 block lg:hidden">
           <TypingEffect text="CURRICULUM VITAE" />
         </div>
@@ -628,21 +677,18 @@ const App = () => {
 
         <Section ref={(el) => (sectionRefs.current.contacto = el)} id="contacto" title="Contacto">
           <div className="grid md:grid-cols-2 gap-4">
-            {/* Email con mailto */}
             <ContactCard
               icon={<Mail size={24} />}
               label="Correo Electrónico"
               value={portfolioData.contact.email}
               href={`mailto:${portfolioData.contact.email}`}
             />
-            {/* LinkedIn como antes */}
             <ContactCard
               icon={<Linkedin size={24} />}
               label="LinkedIn"
               value="Perfil de LinkedIn"
               href={portfolioData.contact.linkedin}
             />
-            {/* Teléfono con tel: (sin espacios) */}
             <ContactCard
               icon={<Phone size={24} />}
               label="Teléfono"
