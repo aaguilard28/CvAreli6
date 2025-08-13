@@ -100,7 +100,7 @@ const portfolioData = {
  'Pronostiqué oportunidades de negocio, gestioné clientes potenciales y cerré exitosamente proyectos.',
  'Encargada de la prospección, desarrollo e implementación de proyectos de infraestructura en colaboración con el gobierno.',
  'Brindé apoyo y coordiné diversas áreas, desempeñando funciones administrativas y de gestión de proyectos (ventas, cartera, legal, calidad, planta, supervisión de obra, licitaciones, entre otros).',
- 'Logré el exitoso cierre de un proyecto para pavimentar 25 calles en el centro de la Ciudad de México, en la Zona Rosa (USD \$35M).',
+ 'Logré el exitoso cierre de un proyecto para pavimentar 25 calles en el centro de la Ciudad de México, en la Zona Rosa (USD $35M).',
  'Responsable de la generación de informes para la alta dirección.',
  ],
  icon: <HardHat size={24}/>,
@@ -115,7 +115,7 @@ const portfolioData = {
  'Encargada de la gestión integral y consolidación de información.',
  'Brindé respaldo a procesos operativos y administrativos, incluyendo la elaboración y seguimiento de presupuestos, generación de informes mensuales de resultados, preparación de presentaciones institucionales, coordinación de entregas, seguimiento de pedidos, entre otros.',
  'Participé activamente en el análisis para seleccionar proyectos y empresas a atender en esta área, en conformidad con las políticas de la empresa.',
- 'Contribuí a la organización de información crucial para un proyecto de pavimentación en una de las avenidas más importantes de la Ciudad de México (USD \$105M).',
+ 'Contribuí a la organización de información crucial para un proyecto de pavimentación en una de las avenidas más importantes de la Ciudad de México (USD $105M).',
  ],
  icon: <Users size={24}/>,
  },
@@ -243,28 +243,22 @@ const TypingEffect = ({ text }) => {
  const [speed, setSpeed] = useState(100);
  useEffect(() => {
  const handleTyping = () => {
- // Si estamos tipeando (no borrando)
  if (!isDeleting) {
- // Añade una letra si no hemos llegado al final
  if (displayedText.length < text.length) {
  setDisplayedText(text.substring(0, displayedText.length + 1));
- setSpeed(100); // Velocidad normal de tipeo
+ setSpeed(100);
  } else {
- // Si llegamos al final del texto, esperamos y empezamos a borrar
  setSpeed(2000);
  setIsDeleting(true);
  }
  } else {
- // Si estamos borrando
  if (displayedText.length > 0) {
- // Elimina una letra si aún queda texto
  setDisplayedText(text.substring(0, displayedText.length - 1));
- setSpeed(50); // Velocidad de borrado más rápida
+ setSpeed(50);
  } else {
- // Si terminamos de borrar, esperamos y volvemos a empezar a tipear
  setSpeed(500);
  setIsDeleting(false);
- setIndex(0); // Reiniciamos el índice
+ setIndex(0);
  }
  }
  };
@@ -300,7 +294,10 @@ const Navigation = ({ activeSection, onNavigate, isMobileMenuOpen, toggleMobileM
  <div className="flex-shrink-0 flex items-center lg:flex-col lg:text-center">
  <User size={32} className="text-amber-600 mr-3 lg:mb-4" />
  <div className="flex flex-col items-center">
- <TypingEffect text="CURRICULUM VITAE" />
+ {/* En móvil oculto el tipeo dentro del nav para evitar corte; en desktop se muestra aquí */}
+ <div className="hidden lg:block">
+   <TypingEffect text="CURRICULUM VITAE" />
+ </div>
  <h1 className="text-2xl font-bold font-sans text-gray-50 static-name">
  <span className="block">ARELI</span>
  <span className="block">AGUILAR</span>
@@ -358,7 +355,6 @@ const Section = React.forwardRef(({ id, title, children }, ref) => {
  <section
  id={id}
  ref={ref}
- // Ajustes de padding para móvil: de 'p-8' a 'p-4 sm:p-6 md:p-8'
  className="bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-xl mb-12 transform hover:scale-[1.01]
  transition-transform duration-300"
  >
@@ -391,7 +387,6 @@ const CollapsibleExperience = ({ date, title, company, location, description, ic
  200">
  <button
  onClick={toggleOpen}
- // Ajustes de padding para móvil: de 'p-6' a 'p-4 sm:p-6'
  className="w-full flex justify-between items-center p-4 sm:p-6 text-left transition-colors duration
  200 hover:bg-gray-50 focus:outline-none"
  >
@@ -590,12 +585,9 @@ const App = () => {
  return (
  <div className="min-h-screen bg-gray-50 font-sans antialiased text-gray-800">
  <style>{`
- /* Estilos para el nombre estático */
- .static-name {
- animation: none !important;
- }
- .static-name span {
- animation: none !important;
+ /* Forzar nombre estático (sin animaciones) en cualquier breakpoint */
+ .static-name, .static-name * {
+   animation: none !important;
  }
 
  /* Estilos para el cursor de la animación de tipeo */
@@ -604,11 +596,11 @@ const App = () => {
  animation: blink-caret 0.75s step-end infinite;
  opacity: 1;
  }
- /* Animación para el cursor parpadeante */
  @keyframes blink-caret {
  from, to { opacity: 0; }
  50% { opacity: 1; }
  }
+
  /* Estilos para el carrusel */
  @keyframes marquee {
  from { transform: translateX(0); }
@@ -659,6 +651,11 @@ const App = () => {
  {/* Carrusel en la parte superior */}
  <div className="pt-16 lg:pt-0 lg:ml-80">
  <MarqueeCarousel />
+
+ {/* Mostrar el "CURRICULUM VITAE" con efecto de tipeo en MÓVIL debajo del nav fijo */}
+ <div className="px-4 pt-2 block lg:hidden">
+   <TypingEffect text="CURRICULUM VITAE" />
+ </div>
  </div>
  
  <main className="lg:ml-80 p-6 lg:p-8">
