@@ -680,23 +680,38 @@ const App = () => {
 
         <Section ref={(el) => (sectionRefs.current.contacto = el)} id="contacto" title="Contacto">
           <div className="grid md:grid-cols-2 gap-4">
-            <ContactCard
-              icon={<Mail size={24} />}
-              label="Correo Electrónico"
-              value={portfolioData.contact.email}
-              href={`mailto:${portfolioData.contact.email}`}
-            />
-            <ContactCard
-              icon={<Linkedin size={24} />}
-              label="LinkedIn"
-              value="Perfil de LinkedIn"
-              href={portfolioData.contact.linkedin}
-            />
-            <ContactCard
-              icon={<Phone size={24} />}
-              label="Teléfono"
-              value={portfolioData.contact.phone}
-              href={`tel:${portfolioData.contact.phone.replace(/\s+/g, '')}`}
+           <ContactCard
+  icon={<Mail size={24} />}
+  label="Correo Electrónico"
+  value={
+    <a
+      href={`mailto:${portfolioData.contact.email}`}
+      className="text-[#1d4ed8] font-bold text-lg break-words"
+    >
+      {portfolioData.contact.email}
+    </a>
+  }
+/>
+
+<ContactCard
+  icon={<Linkedin size={24} />}
+  label="LinkedIn"
+  value="Perfil de LinkedIn"
+  href={portfolioData.contact.linkedin}
+/>
+
+<ContactCard
+  icon={<Phone size={24} />}
+  label="Teléfono"
+  value={
+    <a
+      href={`tel:${portfolioData.contact.phone.replace(/\s+/g, '')}`}
+      className="text-[#1d4ed8] font-bold text-lg break-words"
+    >
+      {portfolioData.contact.phone}
+    </a>
+  }
+/>
             />
           </div>
         </Section>
