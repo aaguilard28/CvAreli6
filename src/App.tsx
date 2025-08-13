@@ -278,7 +278,6 @@ const TypingEffect = ({ text }) => {
  </h2>
  );
 };
-
 // COMPONENTES
 const Navigation = ({ activeSection, onNavigate, isMobileMenuOpen, toggleMobileMenu }) => {
  const sections = [
@@ -300,12 +299,12 @@ const Navigation = ({ activeSection, onNavigate, isMobileMenuOpen, toggleMobileM
  <div className="flex-shrink-0 flex items-center lg:flex-col lg:text-center">
  <User size={32} className="text-amber-600 mr-3 lg:mb-4" />
  <div className="flex flex-col items-center">
- {/* En móvil oculto el tipeo dentro del nav; en desktop se muestra aquí */}
+ {/* En desktop, el efecto de tipeo se muestra aquí */}
  <div className="hidden lg:block">
    <TypingEffect text="CURRICULUM VITAE" />
  </div>
- {/* AJUSTE ÚNICO PARA MÓVIL: tamaño reducido y leading-tight; escritorio intacto */}
- <h1 className="static-name font-bold font-sans text-gray-50 text-lg sm:text-xl lg:text-2xl leading-tight text-center">
+ {/* AJUSTE SOLO MÓVIL: nombre más pequeño; escritorio intacto */}
+ <h1 className="static-name font-bold font-sans text-gray-50 text-sm sm:text-xl lg:text-2xl leading-tight text-center">
  <span className="block">ARELI</span>
  <span className="block">AGUILAR</span>
  <span className="block">DELGADO</span>
@@ -362,7 +361,6 @@ const Section = React.forwardRef(({ id, title, children }, ref) => {
  <section
  id={id}
  ref={ref}
- // Ajustes de padding para móvil: de 'p-8' a 'p-4 sm:p-6 md:p-8'
  className="bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-xl mb-12 transform hover:scale-[1.01]
  transition-transform duration-300"
  >
@@ -395,7 +393,6 @@ const CollapsibleExperience = ({ date, title, company, location, description, ic
  200">
  <button
  onClick={toggleOpen}
- // Ajustes de padding para móvil: de 'p-6' a 'p-4 sm:p-6'
  className="w-full flex justify-between items-center p-4 sm:p-6 text-left transition-colors duration
  200 hover:bg-gray-50 focus:outline-none"
  >
@@ -559,8 +556,6 @@ const ContactCard = ({ icon, label, value, href }) => {
  </div>
  );
 };
-
-/* === FIN PARTE 1 === */
 // COMPONENTE PRINCIPAL DE LA APLICACIÓN
 const App = () => {
  const [activeSection, setActiveSection] = useState('perfil');
@@ -665,7 +660,7 @@ const App = () => {
  <div className="pt-16 lg:pt-0 lg:ml-80">
  <MarqueeCarousel />
 
- {/* Mostrar el "CURRICULUM VITAE" con efecto de tipeo en MÓVIL debajo del nav fijo */}
+ {/* CURRICULUM VITAE con efecto de tipeo en MÓVIL (debajo del nav fijo) */}
  <div className="px-4 pt-2 block lg:hidden">
    <TypingEffect text="CURRICULUM VITAE" />
  </div>
@@ -794,4 +789,3 @@ const App = () => {
  );
 };
 export default App;
-
