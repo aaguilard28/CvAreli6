@@ -621,7 +621,7 @@ const App = () => {
               </div>
             </SkillsCard>
 
-            {/* === Actitud Personal (OPCIÓN 3 profesional) === */}
+            {/* === Enfoque de Colaboración (OPCIÓN 3 profesional) === */}
             <SkillsCard title="Actitud Personal" icon={<HeartHandshake size={24} />} iconColor="#d97706">
               <p className="text-gray-700">
                 Habilidades interpersonales destacadas para generar confianza, facilitar la cooperación y fomentar un ambiente de alto rendimiento.
