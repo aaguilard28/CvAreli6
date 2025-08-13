@@ -352,7 +352,7 @@ const Section = React.forwardRef(({ id, title, children }, ref: any) => {
         {isExpandableSection && (
           <div className="flex items-center text-gray-500 ml-2">
             <Info size={16} className="mr-1" />
-            <p className="text-sm font-medium">Presiona cada contenedor para desplegar información</p>
+            <p className="text-sm font-medium">Presiona para desplegar información</p>
           </div>
         )}
       </div>
@@ -621,8 +621,11 @@ const App = () => {
               </div>
             </SkillsCard>
 
+            {/* === Actitud Personal (OPCIÓN 3 profesional) === */}
             <SkillsCard title="Actitud Personal" icon={<HeartHandshake size={24} />} iconColor="#d97706">
-              <p className="text-gray-700">Empática, asertiva y positiva.</p>
+              <p className="text-gray-700">
+                Habilidades interpersonales destacadas para generar confianza, facilitar la cooperación y fomentar un ambiente de alto rendimiento.
+              </p>
             </SkillsCard>
           </div>
         </Section>
