@@ -354,7 +354,7 @@ const Section = React.forwardRef(({ id, title, children }: any, ref: any) => {
         {isExpandableSection && (
           <div className="flex items-center text-gray-500 ml-2">
             <Info size={16} className="mr-1" />
-            <p className="text-sm font-medium">Presiona para desplegar información</p>
+            <p className="text-sm font-medium">Presiona cada bloque para desplegar</p>
           </div>
         )}
       </div>
