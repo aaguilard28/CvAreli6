@@ -295,7 +295,7 @@ const Navigation = ({ activeSection, onNavigate, isMobileMenuOpen, toggleMobileM
             <TypingEffect text="CURRICULUM VITAE" />
           </div>
           {/* SOLO MÓVIL: nombre más pequeño; escritorio intacto */}
-          <h1 className="static-name font-bold font-sans text-gray-50 text-sm sm:text-xl lg:text-2xl leading-tight text-center">
+          <h1 className="static-name font-bold font-sans text-gray-50 text-xs sm:text-xl lg:text-2xl leading-tight text-center">
             <span className="block">ARELI</span>
             <span className="block">AGUILAR</span>
             <span className="block">DELGADO</span>
