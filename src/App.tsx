@@ -585,15 +585,6 @@ const App = () => {
    .marquee-item { font-size: 1rem; padding: 0 1rem; }
  }
  .marquee-item .icon { color: #d97706; margin-right: 0.5rem; display: inline-block; vertical-align: middle; }
-
- /* === Escala visual al 80% solo en escritorio (lg: >=1024px) === */
- @media (min-width: 1024px) {
-   #desktop-scale {
-     transform: scale(0.8);
-     transform-origin: top left;
-     width: 125%;
-   }
- }
  `}</style>
 
  <Navigation
@@ -603,140 +594,136 @@ const App = () => {
    toggleMobileMenu={toggleMobileMenu}
  />
 
- {/* Wrapper para aplicar "zoom" visual en escritorio sin afectar móvil */}
- <div id="desktop-scale">
-   {/* Carrusel en la parte superior */}
-   <div className="pt-16 lg:pt-0 lg:ml-80">
-     <MarqueeCarousel />
-     {/* CURRICULUM VITAE con efecto de tipeo en MÓVIL (debajo del nav fijo) */}
-     <div className="px-4 pt-2 block lg:hidden">
-       <TypingEffect text="CURRICULUM VITAE" />
-     </div>
+ {/* Carrusel en la parte superior */}
+ <div className="pt-16 lg:pt-0 lg:ml-80">
+   <MarqueeCarousel />
+   {/* CURRICULUM VITAE con efecto de tipeo en MÓVIL (debajo del nav fijo) */}
+   <div className="px-4 pt-2 block lg:hidden">
+     <TypingEffect text="CURRICULUM VITAE" />
    </div>
-   
-   <main className="lg:ml-80 p-6 lg:p-8">
-     <Section ref={(el) => (sectionRefs.current.perfil = el)} id="perfil" title="Perfil Profesional">
-       {portfolioData.profile.map((item, index) => (
-         <ProfileCard key={index} icon={item.icon} text={item.text} />
-       ))}
-     </Section>
+ </div>
+ 
+ <main className="lg:ml-80 p-6 lg:p-8">
+   <Section ref={(el) => (sectionRefs.current.perfil = el)} id="perfil" title="Perfil Profesional">
+     {portfolioData.profile.map((item, index) => (
+       <ProfileCard key={index} icon={item.icon} text={item.text} />
+     ))}
+   </Section>
 
-     <Section ref={(el) => (sectionRefs.current.habilidades = el)} id="habilidades" title="Habilidades Destacadas">
-       <div className="space-y-6">
-         <SkillsCard title="Experiencia Ejecutiva" icon={<Briefcase size={24} />} iconColor="#d97706">
-           <p className="text-gray-700">Más de 15 años de experiencia realizando gestiones administrativas clave a nivel ejecutivo para la alta dirección.</p>
-         </SkillsCard>
+   <Section ref={(el) => (sectionRefs.current.habilidades = el)} id="habilidades" title="Habilidades Destacadas">
+     <div className="space-y-6">
+       <SkillsCard title="Experiencia Ejecutiva" icon={<Briefcase size={24} />} iconColor="#d97706">
+         <p className="text-gray-700">Más de 15 años de experiencia realizando gestiones administrativas clave a nivel ejecutivo para la alta dirección.</p>
+       </SkillsCard>
 
-         <SkillsCard title="Habilidades de Gestión Gerencial" icon={<LayoutDashboard size={24} />} iconColor="#d97706">
-           <div className="grid md:grid-cols-2 gap-4">
-             {portfolioData.skills.management.map((skill, index) => (
-               <div key={index} className="flex items-start text-gray-700">
-                 <CheckCircle size={16} className="text-[#4a688b] mr-2 flex-shrink-0 mt-1" />
-                 <span>{skill}</span>
+       <SkillsCard title="Habilidades de Gestión Gerencial" icon={<LayoutDashboard size={24} />} iconColor="#d97706">
+         <div className="grid md:grid-cols-2 gap-4">
+           {portfolioData.skills.management.map((skill, index) => (
+             <div key={index} className="flex items-start text-gray-700">
+               <CheckCircle size={16} className="text-[#4a688b] mr-2 flex-shrink-0 mt-1" />
+               <span>{skill}</span>
+             </div>
+           ))}
+         </div>
+       </SkillsCard>
+
+       <SkillsCard title="Competencias" icon={<Gem size={24} />} iconColor="#d97706">
+         <p className="text-gray-700 mb-4">- Desliza el cursor sobre cada competencia para conocer más detalles.</p>
+         <div className="flex flex-wrap gap-2">
+           {Object.entries(portfolioData.skills.tooltips).map(([label, tooltip], idx) => (
+             <div key={idx} className="relative group">
+               <span className="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm cursor-help border border-gray-300 group-hover:shadow-md transition">
+                 {label}
+                 <Info size={12} className="inline-block ml-1 text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+               </span>
+               <div className="absolute z-10 hidden group-hover:block bg-[#a8c0d9] text-gray-900 font-medium text-xs p-3 shadow-xl rounded-md w-64 top-full mt-1 left-1/2 -translate-x-1/2">
+                 {tooltip}
                </div>
-             ))}
-           </div>
-         </SkillsCard>
+             </div>
+           ))}
+         </div>
+       </SkillsCard>
 
-         <SkillsCard title="Competencias" icon={<Gem size={24} />} iconColor="#d97706">
-           <p className="text-gray-700 mb-4">- Desliza el cursor sobre cada competencia para conocer más detalles.</p>
-           <div className="flex flex-wrap gap-2">
-             {Object.entries(portfolioData.skills.tooltips).map(([label, tooltip], idx) => (
-               <div key={idx} className="relative group">
-                 <span className="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm cursor-help border border-gray-300 group-hover:shadow-md transition">
-                   {label}
-                   <Info size={12} className="inline-block ml-1 text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-                 </span>
-                 <div className="absolute z-10 hidden group-hover:block bg-[#a8c0d9] text-gray-900 font-medium text-xs p-3 shadow-xl rounded-md w-64 top-full mt-1 left-1/2 -translate-x-1/2">
-                   {tooltip}
-                 </div>
-               </div>
-             ))}
-           </div>
-         </SkillsCard>
+       <SkillsCard title="Actitud Personal" icon={<HeartHandshake size={24} />} iconColor="#d97706">
+         <p className="text-gray-700">Actitud empática, asertiva y positiva.</p>
+       </SkillsCard>
+     </div>
+   </Section>
 
-         <SkillsCard title="Actitud Personal" icon={<HeartHandshake size={24} />} iconColor="#d97706">
-           <p className="text-gray-700">Actitud empática, asertiva y positiva.</p>
-         </SkillsCard>
-       </div>
-     </Section>
+   <Section ref={(el) => (sectionRefs.current.experiencia = el)} id="experiencia" title="Experiencia Profesional">
+     {portfolioData.experience.map((exp, index) => (
+       <CollapsibleExperience
+         key={index}
+         date={exp.date}
+         title={exp.title}
+         company={exp.company}
+         location={exp.location}
+         description={exp.description}
+         icon={exp.icon}
+       />
+     ))}
+   </Section>
 
-     <Section ref={(el) => (sectionRefs.current.experiencia = el)} id="experiencia" title="Experiencia Profesional">
-       {portfolioData.experience.map((exp, index) => (
-         <CollapsibleExperience
-           key={index}
-           date={exp.date}
-           title={exp.title}
-           company={exp.company}
-           location={exp.location}
-           description={exp.description}
-           icon={exp.icon}
-         />
+   <Section ref={(el) => (sectionRefs.current.proyectos = el)} id="proyectos" title="Proyectos de Innovación y Transformación Digital">
+     {portfolioData.projects.map((project, index) => (
+       <CollapsibleExperience
+         key={index}
+         date={project.date}
+         title={project.title}
+         description={project.description}
+         icon={project.icon}
+       />
+     ))}
+   </Section>
+
+   <Section ref={(el) => (sectionRefs.current.educacion = el)} id="educacion" title="Educación Académica">
+     {portfolioData.education.map((edu, index) => (
+       <EducationCard
+         key={index}
+         icon={edu.icon}
+         iconColor={edu.iconColor}
+         title={edu.title}
+         period={edu.period}
+         description={edu.description}
+       />
+     ))}
+     <OtherStudies items={portfolioData.otherStudies} />
+   </Section>
+
+   <Section ref={(el) => (sectionRefs.current.idiomas = el)} id="idiomas" title="Idiomas">
+     <div className="flex flex-col md:flex-row gap-4">
+       {portfolioData.languages.map((lang, index) => (
+         <LanguageCard key={index} language={lang.language} proficiency={lang.proficiency} />
        ))}
-     </Section>
+     </div>
+   </Section>
 
-     <Section ref={(el) => (sectionRefs.current.proyectos = el)} id="proyectos" title="Proyectos de Innovación y Transformación Digital">
-       {portfolioData.projects.map((project, index) => (
-         <CollapsibleExperience
-           key={index}
-           date={project.date}
-           title={project.title}
-           description={project.description}
-           icon={project.icon}
-         />
-       ))}
-     </Section>
-
-     <Section ref={(el) => (sectionRefs.current.educacion = el)} id="educacion" title="Educación Académica">
-       {portfolioData.education.map((edu, index) => (
-         <EducationCard
-           key={index}
-           icon={edu.icon}
-           iconColor={edu.iconColor}
-           title={edu.title}
-           period={edu.period}
-           description={edu.description}
-         />
-       ))}
-       <OtherStudies items={portfolioData.otherStudies} />
-     </Section>
-
-     <Section ref={(el) => (sectionRefs.current.idiomas = el)} id="idiomas" title="Idiomas">
-       <div className="flex flex-col md:flex-row gap-4">
-         {portfolioData.languages.map((lang, index) => (
-           <LanguageCard key={index} language={lang.language} proficiency={lang.proficiency} />
-         ))}
-       </div>
-     </Section>
-
-     <Section ref={(el) => (sectionRefs.current.contacto = el)} id="contacto" title="Contacto">
-       <div className="grid md:grid-cols-2 gap-4">
-         {/* Email con mailto */}
-         <ContactCard
-           icon={<Mail size={24} />}
-           label="Correo Electrónico"
-           value={portfolioData.contact.email}
-           href={`mailto:${portfolioData.contact.email}`}
-         />
-         {/* LinkedIn como antes */}
-         <ContactCard
-           icon={<Linkedin size={24} />}
-           label="LinkedIn"
-           value="Perfil de LinkedIn"
-           href={portfolioData.contact.linkedin}
-         />
-         {/* Teléfono con tel: (sin espacios) */}
-         <ContactCard
-           icon={<Phone size={24} />}
-           label="Teléfono"
-           value={portfolioData.contact.phone}
-           href={`tel:${portfolioData.contact.phone.replace(/\s+/g, '')}`}
-         />
-       </div>
-     </Section>
-   </main>
- </div> {/* /#desktop-scale */}
+   <Section ref={(el) => (sectionRefs.current.contacto = el)} id="contacto" title="Contacto">
+     <div className="grid md:grid-cols-2 gap-4">
+       {/* Email con mailto */}
+       <ContactCard
+         icon={<Mail size={24} />}
+         label="Correo Electrónico"
+         value={portfolioData.contact.email}
+         href={`mailto:${portfolioData.contact.email}`}
+       />
+       {/* LinkedIn como antes */}
+       <ContactCard
+         icon={<Linkedin size={24} />}
+         label="LinkedIn"
+         value="Perfil de LinkedIn"
+         href={portfolioData.contact.linkedin}
+       />
+       {/* Teléfono con tel: (sin espacios) */}
+       <ContactCard
+         icon={<Phone size={24} />}
+         label="Teléfono"
+         value={portfolioData.contact.phone}
+         href={`tel:${portfolioData.contact.phone.replace(/\s+/g, '')}`}
+       />
+     </div>
+   </Section>
+ </main>
  </div>
  );
 };
-export default App;
